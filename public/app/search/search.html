@@ -55,8 +55,6 @@
           </select>
 </div>
 
-
-
 <div class="container">
   <div class="row">
     <div class="col-md-12" >
@@ -66,6 +64,9 @@
             <div class="userphotobox">
               <img class="userphoto" src="{{ user.profileImageUrl }}">
             </div>
+            <button type="button" class="btn btn-primary btn-sm chat-button" data-toggle="modal" data-target="#chatModal">
+              Chat
+            </button>
             <p class="userinfobox">Name: {{user.displayName}}</p>
             <p class="userinfobox">Location: {{user.address}}</p>
             <p class="userinfobox">Skill Level: {{user.professionalLevel}}</p>
@@ -78,6 +79,27 @@
       </div>
     </div>
   </div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Chat</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <textarea class="form-control" rows="10"></textarea>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
 </div>
 
 
