@@ -49,23 +49,8 @@ angular.module('dvelop.auth', [])
 				//console.log(authData.github.profileImageURL);
 
 
-				$scope.checkUsersinFirebase(authData.github.id, function(result){
-					if (authData & !result){
-						//save user to Firebase
-						UsersRef.child("users").child(authData.uid).update[{
-							firstname: 'Sam',
-							lastname: 'Bowler'
-						}]
-					} else {
-						console.log('user already existed!')
-					}
-				})
 			})
-			.catch(function(err){
-				if (err){
-					console.log("Authentication failed!", err);
-				}
-			})
+			
 	}
 })
 

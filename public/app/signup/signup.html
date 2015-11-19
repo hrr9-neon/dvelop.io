@@ -22,8 +22,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       
       <ul class="nav navbar-nav">
-        <li><a href="#/signup">Placeholder Link 1</a></li>
-        <li><a href="#/search">Placeholder Link 2</a></li>
+        <li><a href="#/signup">Profile</a></li>
+        <li><a href="#/search">Search</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
@@ -36,14 +36,16 @@
 <h1 align="center">SignUp Form</h1><br>
 
 <div align="center">
-	<h2>Welcome, <span ng-bind='name'></span>!</h2><br>
+	<h2>Welcome, <span ng-bind='user.displayName'></span>!</h2><br>
 	We're glad you're here. We just need a bit more information to get you set up. 
 </div>
 <br><br>
 
 <div class="container" align="center">
-						<div class="user" ng-model="user.profileImageURL" ng-style="{'background-image':'url({{picture.title}})'}"></div>
-							
+
+						<div class="user" ng-style="{'background-image':'url({{user.profileImageUrl}})'}">
+							<!--img src={{user.profileImageUrl}} /-->
+						</div>
 						</div><br><br><br>
             <form class="form-horizontal" role="form">
                 <div class="form-group">
@@ -57,18 +59,27 @@
                     <label for="email" class="col-sm-3 control-label">Email</label>
                     <div class="col-sm-9">
                         <input name="email.title" type="email" id="email" class="form-control" ng-model="user.emailAddress" ng-value="email.title" >
+
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="location" class="col-sm-3 control-label">Location</label>
                     <div class="col-sm-9">
                         <input type="text" id="location" placeholder="City, State" ng-model="user.address" class="form-control">
+
                     </div>
                 </div>
                 <div class="form-group">
                     <label for="job" class="col-sm-3 control-label">Job</label>
                     <div class="col-sm-9">
                         <input type="text" id="job" placeholder="What Puts Food on the Table" ng-model="user.job" class="form-control">
+                        
+                    </div>
+                </div>
+                 <div class="form-group">
+                    <label for="job" class="col-sm-3 control-label">Birthday</label>
+                    <div class="col-sm-9">
+                        <input type="date" id="birthDate" class="form-control" ng-model="user.birthday">
                     </div>
                 </div>
                 <div class="form-group">
@@ -80,7 +91,7 @@
                 <div class="form-group">
                     <label for="experience" class="col-sm-3 control-label">Experience Level</label>
                     <div class="col-sm-9">
-                        <select id="experience" ng-model="user.professionalLevel" class="form-control">
+                        <select id="experience" ng-model="user.professionalLevel" class="form-control" placeholder="Select from dropdown.">
                             <option>Beginner</option>
                             <option>Intermediate</option>
                             <option>Professional</option>
@@ -91,90 +102,49 @@
                 <div class="form-group">
                     <label for="techSkills" class="col-sm-3 control-label">Tech Skills</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" placeholder="I got the skills to pay the bills." ng-model="user.techSkill">
+                        <input type="text" class="form-control" placeholder="Ex: Angular, CSS, etc." ng-model="user.techSkill">
                         
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="techSkills" class="col-sm-3 control-label"></label>
+        				
+        				<div class="form-group">
+                    <label for="experience" class="col-sm-3 control-label">Do you want to be a mentor?</label>
                     <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="techSkill" placeholder="I got the skills to pay the bills.">
+                        <select id="experience" ng-model="user.mentorAvail" class="form-control">
+                            <option value="True">Yes, I'd like to be a mentor.</option>
+                            <option value="False">No, count me out. </option>
+                            <option value="MoreInfo">Maybe, send me more information.</option>
                         
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="techSkills" class="col-sm-3 control-label"></label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" ng-model="techSkill" placeholder="I got the skills to pay the bills.">
-                        
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="control-label col-sm-3">Interested in Being a Mentor or in Being Mentored?</label>
-                    <div class="col-sm-6">
-                        <div class="row">
-                            <div class="col-sm-9">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="user.mentor" value="YesMentor">Yes! I want to be a mentor.
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-9">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="user.mentor" id="NoEither">Nah. I'd rather not.
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-9">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="user.mentor" value="YesMentored">Yes! I'd love to meet with a skilled programmer in my area and learn some things.
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-9">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="user.mentor" value="Both">Sign me up for both!
-                                </label>
-                            </div>
-                        </div>
+                        </select>
                     </div>
                 </div> <!-- /.form-group -->
+                
                 <div class="form-group">
-                    <label class="control-label col-sm-3">Willing to Help?</label>
-                    <div class="col-sm-6">
-                        <div class="row">
-                            <div class="col-sm-9">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="user.helpAvail" value="helpAvail">Yes! Ask me a question.
-                                </label>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-9">
-                                <label class="radio-inline">
-                                    <input type="radio" ng-model="user.helpAvail" value="noHelp">Nah. I'd rather not.
-                                </label>
-                            </div>
-                        </div>
+                    <label for="experience" class="col-sm-3 control-label">Are you willing to help?</label>
+                    <div class="col-sm-9">
+                        <select id="experience" ng-model="user.helpAvail" class="form-control">
+                            <option value="True">Yes, I'm willing to help.</option>
+                            <option value="False">No, count me out. </option>
+                            <option value="MoreInfo">Maybe, send me more information.</option>
                         
+                        </select>
                     </div>
-                </div> 
+                </div> <!-- /.form-group -->
+               
+               
                 <div class="form-group">
                     <div class="col-sm-9 col-sm-offset-3">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox">I accept <a href="#">terms</a>
+                                <input type="checkbox">I accept <a href="#">terms and conditions of Dvelop</a>
                             </label>
                         </div>
                     </div>
                 </div> <!-- /.form-group -->
                 <div class="form-group">
                     <div class="col-sm-9 col-sm-offset-3">
-                        <button type="submit" ng-click="addNew(user)" class="btn btn-primary btn-block">Save Profile</button>
+                        <button type="submit" class="btn btn-primary btn-block" ng-click= "saveData()">Save Profile</button>
+
                     </div>
                 </div>
             </form> <!-- /form -->

@@ -88,7 +88,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
     return users;
   }
 
-  searchService.users = userGenerator(100);
+  searchService.users = userGenerator(1);
   
 
   //inserting the data to firebase DB uding the users Mock Data
