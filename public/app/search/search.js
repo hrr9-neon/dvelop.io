@@ -116,4 +116,5 @@ angular.module('dvelop.search', ['dvelop.auth'])
   return searchService;
 })
 
+
 //route (dont forget the pound sign!) >> http://localhost:5000/#/search
