@@ -47,13 +47,16 @@ bower install
   - User search
   - Express back-end server 
   - Temporary mock user data for testing and demo purposes
+  - User profile page
+  - Download profile info from Github, and display user profile pic
+  - DB implemented on Firebase
+  - Chat feature (without functionality)
 
 - In-progress features:
-  - User profile page for first time users
+  - Hook up chat functionality so users can send and recieve messages
 
 - Planned features:
-  - Drop down menu (on search page) to filter search
-  - Nav bar for logged in users
+  - Delete mock data 
 
 ## Team
 
