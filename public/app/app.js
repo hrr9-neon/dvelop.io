@@ -1,7 +1,6 @@
 angular.module('dvelop', [
   'dvelop.auth',
   'firebase',
-  'dvelop.community',
   'dvelop.search',
   'dvelop.signup',
   'ngRoute'
@@ -20,10 +19,6 @@ angular.module('dvelop', [
     .when('/search', {
       templateUrl: 'app/search/search.html',
       controller: 'SearchController as search'
-    })
-    .when('/community', {
-      templateUrl: 'app/community/community.html',
-      controller: 'CommunityController'
     })
     .otherwise({
       templateUrl: 'app/auth/auth.html',

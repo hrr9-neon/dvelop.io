@@ -5,6 +5,7 @@
 </head>
 <body ng-controller="SignupController" align="center">
 
+<!-- Nav bar -->
 <nav class="navbar navbar-default navbar-fixed-top ">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -22,8 +23,6 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
       
       <ul class="nav navbar-nav">
-<!--         <li><img class="img-circle img-responsive" style="max-height: 30px; width: auto; vertical-align: middle;" src={{user.profileImageUrl}} /></li> -->
-        <!-- <li>{{user.displayName}}</li> -->
         <li><a href="#/signup">Profile</a></li>
         <li><a href="#/search">Search</a></li>
       </ul>
@@ -35,6 +34,7 @@
   </div><!-- /.container-fluid -->
 </nav>
 
+<!-- Profile form starts here -->
 <h1 align="center">Dvelop Profile</h1><br>
 
 <div align="center">
@@ -45,116 +45,126 @@
 
 <div class="container" align="center">
 
-						<div class="user">
-							<img class="img-circle img-responsive" src={{user.profileImageUrl}} />
-						</div>
-						</div><br><br><br>
-            <form class="form-horizontal" role="form">
-                <div class="form-group">
-                    <label for="firstName" class="col-sm-3 control-label">Full Name</label>
-                    <div class="col-sm-9">
-                        <input name="username.title" type="text" id="firstName" class="form-control" ng-model="user.displayName" ng-value="username.title" autofocus>
+			
+    <div class="user">
+		<img class="img-circle img-responsive" src={{user.profileImageUrl}} />
+	</div>
+	</div><br><br><br>
+           
+    <form class="form-horizontal" role="form">
+        <div class="form-group">
+            <label for="firstName" class="col-sm-3 control-label">Full Name</label>
+            <div class="col-sm-9">
+                <input name="username.title" type="text" id="firstName" class="form-control" ng-model="user.displayName" ng-value="username.title" autofocus>
+            </div>
+        </div>
+        
+        <!-- Email -->
+        <div class="form-group">
+            <label for="email" class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-9">
+                <input name="email.title" type="email" id="email" class="form-control" ng-model="user.emailAddress" ng-value="email.title" >
+            </div>
+        </div>
+       
+       <!-- Location -->
+        <div class="form-group">
+            <label for="location" class="col-sm-3 control-label">Location</label>
+            <div class="col-sm-9">
+                <input type="text" id="location" placeholder="City, State" ng-model="user.address" class="form-control">
+            </div>
+        </div>
 
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="email" class="col-sm-3 control-label">Email</label>
-                    <div class="col-sm-9">
-                        <input name="email.title" type="email" id="email" class="form-control" ng-model="user.emailAddress" ng-value="email.title" >
+        <!-- Job -->
+        <div class="form-group">
+            <label for="job" class="col-sm-3 control-label">Job</label>
+            <div class="col-sm-9">
+                <input type="text" id="job" placeholder="What Puts Food on the Table" ng-model="user.job" class="form-control">
+            </div>
+        </div>
+        
+        <!-- Birthday -->
+         <div class="form-group">
+            <label for="job" class="col-sm-3 control-label">Birthday</label>
+            <div class="col-sm-9">
+                <input type="date" id="birthDate" class="form-control" ng-model="user.birthday">
+            </div>
+        </div>
 
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="location" class="col-sm-3 control-label">Location</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="location" placeholder="City, State" ng-model="user.address" class="form-control">
+        <!-- Concentration -->
+        <div class="form-group">
+            <label for="concentration" class="col-sm-3 control-label">Concentration</label>
+            <div class="col-sm-9">
+                <input type="text" id="bestAt" placeholder="What's Your Strongest Skill?" ng-model="user.bestAt" class="form-control">
+            </div>
+        </div>
 
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="job" class="col-sm-3 control-label">Job</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="job" placeholder="What Puts Food on the Table" ng-model="user.job" class="form-control">
-                        
-                    </div>
-                </div>
-                 <div class="form-group">
-                    <label for="job" class="col-sm-3 control-label">Birthday</label>
-                    <div class="col-sm-9">
-                        <input type="date" id="birthDate" class="form-control" ng-model="user.birthday">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="concentration" class="col-sm-3 control-label">Concentration</label>
-                    <div class="col-sm-9">
-                        <input type="text" id="bestAt" placeholder="What's Your Strongest Skill?" ng-model="user.bestAt" class="form-control">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="experience" class="col-sm-3 control-label">Experience Level</label>
-                    <div class="col-sm-9">
-                        <select id="experience" ng-model="user.professionalLevel" class="form-control" placeholder="Select from dropdown.">
-                            <option>Beginner</option>
-                            <option>Intermediate</option>
-                            <option>Professional</option>
-                        
-                        </select>
-                    </div>
-                </div> <!-- /.form-group -->
-                <div class="form-group">
-                    <label for="techSkills" class="col-sm-3 control-label">Tech Skills</label>
-                    <div class="col-sm-9">
-                        <input type="text" class="form-control" placeholder="Ex: Angular, CSS, etc." ng-model="user.techSkill">
-                        
-                    </div>
-                </div>
-        				
-        				<div class="form-group">
-                    <label for="experience" class="col-sm-3 control-label">Do you want to be a mentor?</label>
-                    <div class="col-sm-9">
-                        <select id="experience" ng-model="user.mentorAvail" class="form-control">
-                            <option value="True">Yes, I'd like to be a mentor.</option>
-                            <option value="False">No, count me out. </option>
-                            <option value="MoreInfo">Maybe, send me more information.</option>
-                        
-                        </select>
-                    </div>
-                </div> <!-- /.form-group -->
+        <!-- Experience level -->
+        <div class="form-group">
+            <label for="experience" class="col-sm-3 control-label">Experience Level</label>
+            <div class="col-sm-9">
+                <select id="experience" ng-model="user.professionalLevel" class="form-control" placeholder="Select from dropdown.">
+                    <option>Beginner</option>
+                    <option>Intermediate</option>
+                    <option>Advanced</option>
+                    <option>Professional</option>
+                </select>
+            </div>
+        </div> 
+
+        <!-- Tech Skills -->
+        <div class="form-group">
+            <label for="techSkills" class="col-sm-3 control-label">Tech Skills</label>
+            <div class="col-sm-9">
+                <input type="text" class="form-control" placeholder="Ex: Angular, CSS, etc." ng-model="user.techSkill">
+            </div>
+        </div>
+
+            <!-- Mentor? -->
+			<div class="form-group">
+            <label for="experience" class="col-sm-3 control-label">Do you want to be a mentor?</label>
+            <div class="col-sm-9">
+                <select id="experience" ng-model="user.mentorAvail" class="form-control">
+                    <option value="True">Yes, I'd like to be a mentor.</option>
+                    <option value="False">No, count me out. </option>
+                    <option value="MoreInfo">Maybe, send me more information.</option>
+                </select>
+            </div>
+        </div> 
+        
+        <!-- Willing to help? -->
+        <div class="form-group">
+            <label for="experience" class="col-sm-3 control-label">Are you willing to help?</label>
+            <div class="col-sm-9">
+                <select id="experience" ng-model="user.helpAvail" class="form-control">
+                    <option value="True">Yes, I'm willing to help.</option>
+                    <option value="False">No, count me out. </option>
+                    <option value="MoreInfo">Maybe, send me more information.</option>
                 
-                <div class="form-group">
-                    <label for="experience" class="col-sm-3 control-label">Are you willing to help?</label>
-                    <div class="col-sm-9">
-                        <select id="experience" ng-model="user.helpAvail" class="form-control">
-                            <option value="True">Yes, I'm willing to help.</option>
-                            <option value="False">No, count me out. </option>
-                            <option value="MoreInfo">Maybe, send me more information.</option>
-                        
-                        </select>
-                    </div>
-                </div> <!-- /.form-group -->
-               
-               
-                <div class="form-group">
-                    <div class="col-sm-9 col-sm-offset-3">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox">I accept <a href="#">terms and conditions of Dvelop</a>
-                            </label>
-                        </div>
-                    </div>
-                </div> <!-- /.form-group -->
-                <div class="form-group">
-                    <div class="col-sm-9 col-sm-offset-3">
-                        <button type="submit" class="btn btn-primary btn-block" ng-click= "saveData()">Save Profile</button>
-
-                    </div>
+                </select>
+            </div>
+        </div> 
+       
+       <!-- Terms and conditions -->
+        <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox">I accept <a href="#">terms and conditions of Dvelop</a>
+                    </label>
                 </div>
-            </form> <!-- /form -->
-        </div> <!-- ./container -->
+            </div>
+        </div> 
 
+        <!-- Save Profile -->
+        <div class="form-group">
+            <div class="col-sm-9 col-sm-offset-3">
+                <button type="submit" class="btn btn-primary btn-block" ng-click= "saveData()">Save Profile</button>
 
-
-
+            </div>
+        </div>
+    </form> 
+</div> 
 
 </body>
 </html>
