@@ -1,3 +1,6 @@
+//NOTE - for testing purposes, the code starting at line 37 generates random users for mock data
+//The "in-memory" test version has been commented out, the app is curently correctly using the Firebase DB
+
 angular.module('dvelop.search', ['dvelop.auth'])
 
 .controller('SearchController', function ($scope, SearchService, logout, $location, $firebaseArray, $firebaseObject){
@@ -29,7 +32,9 @@ angular.module('dvelop.search', ['dvelop.auth'])
   // searchService.userRef = $firebaseArray(new Firebase("https://amber-inferno-2562.firebaseio.com/users")); //array version
   searchService.userRef = new Firebase("https://amber-inferno-2562.firebaseio.com/users"); 
 
-  //random User Generator
+  ////////////////////////////////////////////////////
+  //Random User Generator - Irrelevant at the moment//
+  ////////////////////////////////////////////////////
   var userGenerator = function(userNum){
     var users = [];
     var user = {}
@@ -88,6 +93,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
     return users;
   }
 
+  //Pass into userGenerator the number of random users you want to generate for mock data testing purposes - DO NOT COMMENT OUT, IT WILL BREAK THE APP
   searchService.users = userGenerator(0);
   
 
@@ -115,6 +121,3 @@ angular.module('dvelop.search', ['dvelop.auth'])
 
   return searchService;
 })
-
-
-//route (dont forget the pound sign!) >> http://localhost:5000/#/search

@@ -1,3 +1,4 @@
+<!-- Nav Bar - lines 2 through 28-->
 <nav class="navbar navbar-default navbar-fixed-top ">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
@@ -27,7 +28,7 @@
 </nav>
   
 
-
+<!-- Search Bar -->
   <div class='container searchcontainer' align="center">
     <div class="row">
       <div class="col-md-6 col-md-offset-4">
@@ -35,26 +36,26 @@
           <div class="form-group col-lg-8">
             <input class="form-control" name="search" ng-model="search.input" placeholder="Search...">
           </div>
-          <!-- <button type="submit" class="btn btn-primary">Search</button> -->
         </form>
-      </div>
-      <div class="col-md-2">
-        <!-- <button ng-click="search.logout()" type="button" class="btn btn-primary">Logout</button> -->
       </div>
     </div>
   </div>
 </div>
 
+
+<!-- Drop down menu for seacrhing by experience -->
 <div class="dropdown-container" align="center">
-        <label>Professional Level: </label>
-          <select ng-model="search.level">
-            <option value="">Professional Level </option>
-            <option value="Advanced">Advanced</option>
-            <option value="Intermediate">Intermediate</option>
-            <option value="Novice">Novice</option>
-          </select>
+  <label>Professional Level: </label>
+    <select ng-model="search.level">
+      <option value="">Professional Level </option>
+      <option value="Advanced">Advanced</option>
+      <option value="Intermediate">Intermediate</option>
+      <option value="Novice">Novice</option>
+    </select>
 </div>
 
+
+<!-- Search results, shows the summary profile of each of the users -->
 <div class="container">
   <div class="row">
     <div class="col-md-12" >
@@ -81,7 +82,7 @@
   </div>
 
 
-<!-- Modal -->
+<!-- Modal for chat -->
 <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
