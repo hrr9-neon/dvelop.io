@@ -6,12 +6,12 @@ it is imported from Github.
 angular.module('dvelop.auth', [])
 
 .factory('Auth', function($firebaseAuth){
-	var usersRef = new Firebase("https://amber-inferno-2562.firebaseio.com");
+	var usersRef = new Firebase("https://shining-torch-3159.firebaseio.com");
 	return $firebaseAuth(usersRef);
 })
 
 .factory('UsersRef', function(){
-	var usersRef = new Firebase("https://amber-inferno-2562.firebaseio.com/");
+	var usersRef = new Firebase("https://shining-torch-3159.firebaseio.com/");
 	return usersRef;
 })
 
