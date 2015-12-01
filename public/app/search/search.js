@@ -13,7 +13,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
   // search.users = SearchService.users;
 
   // DB version : retrieving the data from DB. 
-  search.users = $firebaseArray(new Firebase("https://amber-inferno-2562.firebaseio.com/users"));
+  search.users = $firebaseArray(new Firebase("https://shining-torch-3159.firebaseio.com/users"));
     //it is possible that you call object as an array using $firebaseArray;
 
   // search.users = $firebaseObject(new Firebase("https://amber-inferno-2562.firebaseio.com/users")); //object version
@@ -30,7 +30,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
   var searchService = {};
 
   // searchService.userRef = $firebaseArray(new Firebase("https://amber-inferno-2562.firebaseio.com/users")); //array version
-  searchService.userRef = new Firebase("https://amber-inferno-2562.firebaseio.com/users"); 
+  searchService.userRef = new Firebase("https://shining-torch-3159.firebaseio.com/users"); 
 
   ////////////////////////////////////////////////////
   //Random User Generator - Irrelevant at the moment//
