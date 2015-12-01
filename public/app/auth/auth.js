@@ -51,6 +51,11 @@ angular.module('dvelop.auth', [])
 			})
 			
 	}
+
+	$scope.signup = function(){
+		console.log('signup button clicked');
+		$location.path('/signup');
+	}
 })
 
 .factory('logout', function(Auth, $location){
