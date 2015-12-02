@@ -9,7 +9,8 @@ angular.module('dvelop.search', ['dvelop.auth'])
 
   search.input = ''
 
-  // DB version : retrieving the data from DB. 
+
+  // DB version : retrieving the data from DB.
   search.users = $firebaseArray(new Firebase("https://shining-torch-3159.firebaseio.com/users"));
   //it is possible that you call object as an array using $firebaseArray;
 
@@ -20,5 +21,4 @@ angular.module('dvelop.search', ['dvelop.auth'])
   search.logout = logout.logout;
 
 })
-
 
