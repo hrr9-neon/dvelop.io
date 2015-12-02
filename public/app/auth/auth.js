@@ -31,9 +31,9 @@ angular.module('dvelop.auth', [])
 			$location.path('/search');
 		}
 	});
-
+	$rootScope.fb = new Firebase("https://shining-torch-3159.firebaseio.com");
+	$rootScope.loggedIn = null;
 	$scope.login = function(){
-
 		Auth.$authWithOAuthPopup("github")
 			//this needs work...
 			.then(function(authData){
@@ -46,7 +46,7 @@ angular.module('dvelop.auth', [])
 						email: authData.github.email,
 						imageURL: authData.github.profileImageURL
 					};
-					$rootScope.fb = new Firebase("https://shining-torch-3159.firebaseio.com");
+					
 				}
 				// console.log(UserStore);
 				console.log($rootScope.loggedIn);
