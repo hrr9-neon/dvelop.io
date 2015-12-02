@@ -1,6 +1,6 @@
 angular.module('dvelop.signup', ['dvelop.auth'])
 
-.controller('SignupController', function(currentAuth, $scope, Auth, $location, $rootScope, $firebaseObject){
+.controller('SignupController', function(logout, currentAuth, $scope, Auth, $location, $rootScope, $firebaseObject){
 
   $scope.user = {};
   $scope.currentUser;
@@ -30,5 +30,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
     userRef.child($rootScope.loggedIn.userID).update($scope.user);
     $location.path('/search'); //object version
   };
+
+  $scope.logout = logout.logout;
 
 });
