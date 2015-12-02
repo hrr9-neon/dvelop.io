@@ -58,3 +58,4 @@ angular.module('dvelop', [
       templateUrl: 'app/auth/auth.html',
       controller: 'AuthController'
     });
+});
