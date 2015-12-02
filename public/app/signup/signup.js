@@ -11,9 +11,9 @@ angular.module('dvelop.signup', ['dvelop.auth'])
     console.log(snapshot.val());
     $scope.currentUser = (snapshot.val());
     $scope.user.displayName = $scope.currentUser.displayName;
-    $scope.user.emailAddress = $scope.currentUser.email;
+    $scope.user.emailAddress = $scope.currentUser.emailAddress;
     // $scope.user.birthday = $scope.currentUser.birthday;
-    $scope.user.professionalLevel = $scope.currentUser.prefessionalLevel;
+    $scope.user.professionalLevel = $scope.currentUser.professionalLevel;
     $scope.user.profileImageUrl = $scope.currentUser.profileImageUrl;
     $scope.user.address = $scope.currentUser.address;
     $scope.user.bestAt = $scope.currentUser.bestAt;
@@ -24,7 +24,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
 
   $scope.saveData = function(){
     var userRef = new Firebase("https://shining-torch-3159.firebaseio.com/users");
-    userRef.child($scope.authData.github.id).update($scope.user);
+    userRef.child($rootScope.loggedIn.userID).update($scope.user);
     $location.path('/search'); //object version
   };
 
