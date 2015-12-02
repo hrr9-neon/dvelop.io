@@ -54,6 +54,10 @@ angular.module('dvelop', [
       templateUrl: 'app/messages/messages.html',
       controller: 'MessagesController as messages'
     })
+    .when('/messages', {
+      templateUrl: 'app/messages/messages.html',
+      controller: 'MessagesController as messages'
+    })
     .otherwise({
       templateUrl: 'app/auth/auth.html',
       controller: 'AuthController'
