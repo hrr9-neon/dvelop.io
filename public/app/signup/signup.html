@@ -1,27 +1,57 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html>
 <head>
 <title>Checkbox Control</title>
 </head>
 <body ng-controller="SignupController" align="center">
+ -->
+<!-- Nav Bar -->
+<nav class="navbar navbar-default navbar-fixed-top ">
+    <div class="container-fluid">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#/search">Dvelop.io</a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+
+        <ul class="nav navbar-nav">
+          <li><a href="#/signup">Profile</a></li>
+          <li><a href="#/search">Search</a></li>
+          <li><a href="#/messages">Messages</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li ng-click="search.logout()"><a href="#">Logout</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>
 
 <!-- Profile form starts here -->
 <h1 align="center">Dvelop Profile</h1><br>
 
 <div align="center">
-	<h2>Welcome, <span ng-bind='user.displayName'></span>!</h2><br>
-	We're glad you're here. We just need a bit more information to get you set up. 
+    <h2>Welcome, <span ng-bind='user.displayName'></span>!</h2><br>
+    We're glad you're here. We just need a bit more information to get you set up.
 </div>
 <br><br>
 
 <div class="container" align="center">
 
-			
+
     <div class="user">
-		<img class="img-circle img-responsive" src={{user.profileImageUrl}} />
-	</div>
-	</div><br><br><br>
-           
+        <img class="img-circle img-responsive" src={{user.profileImageUrl}} />
+    </div>
+    </div><br><br><br>
+
     <form class="form-horizontal" role="form">
         <div class="form-group">
             <label for="firstName" class="col-sm-3 control-label">Full Name</label>
@@ -29,7 +59,7 @@
                 <input name="username.title" type="text" id="firstName" class="form-control" ng-model="user.displayName" ng-value="username.title" autofocus>
             </div>
         </div>
-        
+
         <!-- Email -->
         <div class="form-group">
             <label for="email" class="col-sm-3 control-label">Email</label>
@@ -37,7 +67,7 @@
                 <input name="email.title" type="email" id="email" class="form-control" ng-model="user.emailAddress" ng-value="email.title" >
             </div>
         </div>
-       
+
        <!-- Location -->
         <div class="form-group">
             <label for="location" class="col-sm-3 control-label">Location</label>
@@ -53,7 +83,7 @@
                 <input type="text" id="job" placeholder="What Puts Food on the Table" ng-model="user.job" class="form-control">
             </div>
         </div>
-        
+
         <!-- Birthday -->
          <div class="form-group">
             <label for="job" class="col-sm-3 control-label">Birthday</label>
@@ -81,7 +111,7 @@
                     <option>Professional</option>
                 </select>
             </div>
-        </div> 
+        </div>
 
         <!-- Tech Skills -->
         <div class="form-group">
@@ -92,7 +122,7 @@
         </div>
 
             <!-- Mentor? -->
-			<div class="form-group">
+            <div class="form-group">
             <label for="experience" class="col-sm-3 control-label">Do you want to be a mentor?</label>
             <div class="col-sm-9">
                 <select id="experience" ng-model="user.mentorAvail" class="form-control">
@@ -101,8 +131,8 @@
                     <option value="MoreInfo">Maybe, send me more information.</option>
                 </select>
             </div>
-        </div> 
-        
+        </div>
+
         <!-- Willing to help? -->
         <div class="form-group">
             <label for="experience" class="col-sm-3 control-label">Are you willing to help?</label>
@@ -111,11 +141,11 @@
                     <option value="True">Yes, I'm willing to help.</option>
                     <option value="False">No, count me out. </option>
                     <option value="MoreInfo">Maybe, send me more information.</option>
-                
+
                 </select>
             </div>
-        </div> 
-       
+        </div>
+
        <!-- Terms and conditions -->
         <div class="form-group">
             <div class="col-sm-9 col-sm-offset-3">
@@ -125,7 +155,7 @@
                     </label>
                 </div>
             </div>
-        </div> 
+        </div>
 
         <!-- Save Profile -->
         <div class="form-group">
@@ -134,8 +164,9 @@
 
             </div>
         </div>
-    </form> 
-</div> 
-
+    </form>
+</div>
+<!--
 </body>
 </html>
+ -->

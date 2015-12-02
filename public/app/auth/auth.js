@@ -1,6 +1,6 @@
 /*NOTE: Authorization data is imported from Github and stored in local storage (userStore) in order to
-populate user profile with Github profile picture, name, and basic information. For improvement, save data to DB when 
-it is imported from Github.  
+populate user profile with Github profile picture, name, and basic information. For improvement, save data to DB when
+it is imported from Github.
 */
 
 angular.module('dvelop.auth', [])
@@ -20,7 +20,7 @@ angular.module('dvelop.auth', [])
 	return userStore;
 })
 
-.controller('AuthController', function($scope, Auth, $location, UsersRef, UserStore){
+.controller('AuthController', function($scope, Auth, $location, UsersRef, UserStore, $rootScope){
 	Auth.$onAuth(function(authData){
 		$scope.authData = authData;
 
@@ -35,30 +35,35 @@ angular.module('dvelop.auth', [])
 	$scope.login = function(){
 		Auth.$authWithOAuthPopup("github")
 			.then(function(authData){
-				if (UserStore[authData.github.id]){
+				if ($rootScope.loggedIn){
 					$location.path('/search');
-				} else{	
-					UserStore[authData.github.id] = {
+				} else{
+					$rootScope.loggedIn = {
 						userID: authData.github.id,
 						displayName: authData.github.displayName,
 						email: authData.github.email,
 						imageURL: authData.github.profileImageURL
 					}
 				}
-				console.log(UserStore); 
+				// console.log(UserStore);
+				console.log($rootScope.loggedIn);
 				$location.path('/signup');
-
+				$rootScope.test = 'Ahmet';
 			})
-			
+
+	}
+
+	$scope.signup = function(){
+		console.log('signup button clicked');
+		$location.path('/signup');
 	}
 })
 
 .factory('logout', function(Auth, $location){
 		var logoutFn = function(){
-			Auth.$unauth();	
+			Auth.$unauth();
 			$location.path('/auth')
 			console.log('This was fired!');
 		}
 		return {logout: logoutFn};
 });
-

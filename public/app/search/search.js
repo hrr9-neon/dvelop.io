@@ -12,7 +12,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
   //local memory version
   // search.users = SearchService.users;
 
-  // DB version : retrieving the data from DB. 
+  // DB version : retrieving the data from DB.
   search.users = $firebaseArray(new Firebase("https://shining-torch-3159.firebaseio.com/users"));
     //it is possible that you call object as an array using $firebaseArray;
 
@@ -30,7 +30,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
   var searchService = {};
 
   // searchService.userRef = $firebaseArray(new Firebase("https://shining-torch-3159.firebaseio.com/users")); //array version
-  searchService.userRef = new Firebase("https://shining-torch-3159.firebaseio.com/users"); 
+  searchService.userRef = new Firebase("https://shining-torch-3159.firebaseio.com/users");
 
   ////////////////////////////////////////////////////
   //Random User Generator - Irrelevant at the moment//
@@ -95,7 +95,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
 
   //Pass into userGenerator the number of random users you want to generate for mock data testing purposes - DO NOT COMMENT OUT, IT WILL BREAK THE APP
   searchService.users = userGenerator(0);
-  
+
 
   //inserting the data to firebase DB uding the users Mock Data
   for(var i=0; i<searchService.users.length; i++){
