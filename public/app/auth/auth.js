@@ -33,7 +33,20 @@ angular.module('dvelop.auth', [])
 	})
 
 	$scope.login = function(){
+
+/*
+		var ref = new Firebase("https://<YOUR-FIREBASE-APP>.firebaseio.com");
+		ref.authWithOAuthPopup("github", function(error, authData) {
+		  if (error) {
+		    console.log("Login Failed!", error);
+		  } else {
+		    console.log("Authenticated successfully with payload:", authData);
+		  }
+		});
+*/
+
 		Auth.$authWithOAuthPopup("github")
+			//this needs work...
 			.then(function(authData){
 				if (UserStore[authData.github.id]){
 					$location.path('/search');
