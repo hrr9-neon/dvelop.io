@@ -21,5 +21,16 @@ angular.module('dvelop.search', ['dvelop.auth'])
   //logout func
   search.logout = logout.logout;
 
+})
+
+.filter("multiWordFilter", function($filter){
+    return function(inputArray, searchText){
+        var wordArray = searchText ? searchText.toLowerCase().split(/\s+/) : [];
+        var wordCount = wordArray.length;
+        for(var i=0;i<wordCount;i++){
+            inputArray = $filter('filter')(inputArray, wordArray[i]);
+        }
+        return inputArray;
+    }
 });
 
