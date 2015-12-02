@@ -20,7 +20,7 @@ angular.module('dvelop.auth', [])
 	return userStore;
 })
 
-.controller('AuthController', function($scope, Auth, $location, UsersRef, UserStore, $rootScope){
+.controller('AuthController', function($scope, Auth, $location, UsersRef, UserStore, $rootScope, $firebase){
 	Auth.$onAuth(function(authData){
 		$scope.authData = authData;
 
@@ -28,22 +28,11 @@ angular.module('dvelop.auth', [])
 			console.log('User is not logged in yet.');
 		} else {
 			console.log('User logged in as ', authData);
-			$location.path('/search')
+			$location.path('/search');
 		}
-	})
+	});
 
 	$scope.login = function(){
-
-/*
-		var ref = new Firebase("https://<YOUR-FIREBASE-APP>.firebaseio.com");
-		ref.authWithOAuthPopup("github", function(error, authData) {
-		  if (error) {
-		    console.log("Login Failed!", error);
-		  } else {
-		    console.log("Authenticated successfully with payload:", authData);
-		  }
-		});
-*/
 
 		Auth.$authWithOAuthPopup("github")
 			//this needs work...
@@ -56,27 +45,27 @@ angular.module('dvelop.auth', [])
 						displayName: authData.github.displayName,
 						email: authData.github.email,
 						imageURL: authData.github.profileImageURL
-					}
+					};
+					$rootScope.fb = new Firebase("https://shining-torch-3159.firebaseio.com");
 				}
 				// console.log(UserStore);
 				console.log($rootScope.loggedIn);
 				$location.path('/signup');
 				$rootScope.test = 'Ahmet';
-			})
-
-	}
+			});
+	};
 
 	$scope.signup = function(){
 		console.log('signup button clicked');
 		$location.path('/signup');
-	}
+	};
 })
 
 .factory('logout', function(Auth, $location){
 		var logoutFn = function(){
 			Auth.$unauth();
-			$location.path('/auth')
+			$location.path('/auth');
 			console.log('This was fired!');
-		}
-		return {logout: logoutFn};
+		};
+		return { logout: logoutFn };
 });
