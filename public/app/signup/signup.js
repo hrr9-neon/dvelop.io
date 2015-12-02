@@ -5,7 +5,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
   $scope.user = {};
   $scope.currentUser;
 
-  var userData = new Firebase("https://shining-torch-3159.firebaseio.com/users/" + $rootScope.loggedIn.userID);
+  var userData = $rootScope.fb.child('users/' + $rootScope.loggedIn.userID);
 
   userData.on('value', function(snapshot){
     console.log(snapshot.val());
@@ -26,7 +26,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
   });
 
   $scope.saveData = function(){
-    var userRef = new Firebase("https://shining-torch-3159.firebaseio.com/users");
+    var userRef = $rootScope.fb.child('users');
     userRef.child($rootScope.loggedIn.userID).update($scope.user);
     $location.path('/search'); //object version
   };
