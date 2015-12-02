@@ -31,14 +31,18 @@
 <div class="container">
   <div class="row">
     <div class="col-md-2">Rooms:
-      <div class="row" ng-repeat="item in publicrooms">
-        <div class="col-md-12">
+      <div class="row" ng-repeat="item in publicrooms track by $index">
+        <div class="col-md-12 rooms" ng-click="showMessages(item)">
           {{item.name}}
         </div>
       </div>
     </div>
     <div class="col-md-10">
-
+      <div class="row" ng-repeat="item in messages">
+        <div class="col-md-12 rooms" >
+          {{item.text}}
+        </div>
+      </div>
     </div>
   </div>
 </div>
