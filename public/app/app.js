@@ -25,7 +25,16 @@ angular.module('dvelop', [
     })
     .when('/signup', {
       templateUrl: 'app/signup/signup.html',
-      controller: 'SignupController'
+      controller: 'SignupController',
+      resolve: {
+        // controller will not be loaded until $requireAuth resolves
+        // Auth refers to our $firebaseAuth wrapper (factory in auth.js)
+        "currentAuth": ["Auth", function(Auth) {
+          // $requireAuth returns a promise so the resolve waits for it to complete
+          // If the promise is rejected, it will throw a $stateChangeError (see above)
+          return Auth.$requireAuth();
+        }]
+      }
     })
     .when('/search', {
       templateUrl: 'app/search/search.html',

@@ -1,6 +1,6 @@
 angular.module('dvelop.signup', ['dvelop.auth'])
 
-.controller('SignupController', function($scope, UserStore, Auth, $location){
+.controller('SignupController', function(currentAuth, $scope, UserStore, Auth, $location){
   
   $scope.user = {};
   $scope.currentUser;
