@@ -1,57 +1,87 @@
-angular.module('dvelop', [
-  'dvelop.auth',
-  'firebase',
-  'dvelop.search',
-  'dvelop.signup',
-  'ngRoute'
-])
+/*NOTE: Authorization data is imported from Github and stored in local storage (userStore) in order to
+populate user profile with Github profile picture, name, and basic information. For improvement, save data to DB when
+it is imported from Github.
+*/
 
-.run(["$rootScope", "$location", function($rootScope, $location) {
-  $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
-    // We can catch the error thrown when the $requireAuth promise is rejected
-    // and redirect the user back to the home page
-    if (error === "AUTH_REQUIRED") {
-      $location.path("/home");
-    }
-  });
-}])
+angular.module('dvelop.auth', [])
 
+.factory('Auth', function($firebaseAuth){
+	var usersRef = new Firebase("https://shining-torch-3159.firebaseio.com");
+	return $firebaseAuth(usersRef);
+})
 
-.config(function($routeProvider) {
-  $routeProvider
-    .when('/auth', {
-      templateUrl: 'app/auth/auth.html',
-      controller: 'AuthController'
-    })
-    .when('/signup', {
-      templateUrl: 'app/signup/signup.html',
-      controller: 'SignupController',
-      resolve: {
-        // controller will not be loaded until $requireAuth resolves
-        // Auth refers to our $firebaseAuth wrapper (factory in auth.js)
-        "currentAuth": ["Auth", function(Auth) {
-          // $requireAuth returns a promise so the resolve waits for it to complete
-          // If the promise is rejected, it will throw a $stateChangeError (see above)
-          return Auth.$requireAuth();
-        }]
-      }
-    })
-    .when('/search', {
-      templateUrl: 'app/search/search.html',
-      controller: 'SearchController as search',
-      resolve: {
-        // controller will not be loaded until $requireAuth resolves
-        // Auth refers to our $firebaseAuth wrapper (factory in auth.js)
-        "currentAuth": ["Auth", function(Auth) {
-          // $requireAuth returns a promise so the resolve waits for it to complete
-          // If the promise is rejected, it will throw a $stateChangeError (see above)
-          return Auth.$requireAuth();
-        }]
-      }
-    })
-    .otherwise({
-      templateUrl: 'app/auth/auth.html',
-      controller: 'AuthController'
-    });
+.factory('UsersRef', function(){
+	var usersRef = new Firebase("https://shining-torch-3159.firebaseio.com/");
+	return usersRef;
+})
 
+.factory('UserStore', function(){
+	var userStore = {};
+	return userStore;
+})
+
+.controller('AuthController', function($scope, Auth, $location, UsersRef, UserStore, $rootScope){
+	Auth.$onAuth(function(authData){
+		$scope.authData = authData;
+
+		if (authData === null){
+			console.log('User is not logged in yet.');
+		} else {
+			console.log('User logged in as ', authData);
+			$location.path('/search')
+		}
+	})
+
+	$scope.login = function(){
+
+/*
+		var ref = new Firebase("https://<YOUR-FIREBASE-APP>.firebaseio.com");
+		ref.authWithOAuthPopup("github", function(error, authData) {
+		  if (error) {
+		    console.log("Login Failed!", error);
+		  } else {
+		    console.log("Authenticated successfully with payload:", authData);
+		  }
+		});
+*/
+
+		Auth.$authWithOAuthPopup("github")
+			//this needs work...
+			.then(function(authData){
+				if ($rootScope.loggedIn){
+					$location.path('/search');
+				} else{
+					$rootScope.loggedIn = {
+						userID: authData.github.id,
+						displayName: authData.github.displayName,
+						email: authData.github.email,
+						imageURL: authData.github.profileImageURL
+					}
+				}
+				// console.log(UserStore);
+				console.log($rootScope.loggedIn);
+				$location.path('/signup');
+				$rootScope.test = 'Ahmet';
+			})
+
+	}
+
+	$scope.signup = function(){
+		console.log('signup button clicked');
+		$location.path('/signup');
+	}
+
+	$scope.signup = function(){
+		console.log('signup button clicked');
+		$location.path('/signup');
+	}
+})
+
+.factory('logout', function(Auth, $location){
+		var logoutFn = function(){
+			Auth.$unauth();
+			$location.path('/auth')
+			console.log('This was fired!');
+		}
+		return {logout: logoutFn};
 });
