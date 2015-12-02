@@ -29,18 +29,18 @@
 </nav>
 
 <!-- Search Bar -->
-  <div class='container searchcontainer' align="center">
-    <div class="row">
-      <div class="col-md-6 col-md-offset-4">
-        <form name="searchForm" class="search-bar form-inline" action="/#/community">
-          <div class="form-group col-lg-8">
-            <input class="form-control" name="search" ng-model="search.input" placeholder="Search...">
-          </div>
-        </form>
-      </div>
+<div class='container searchcontainer' align="center">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-4">
+      <form name="searchForm" class="search-bar form-inline" action="/#/community">
+        <div class="form-group col-lg-8">
+          <input class="form-control" name="search" ng-model="search.input" placeholder="Search...">
+        </div>
+      </form>
     </div>
   </div>
 </div>
+
 
 
 <!-- Drop down menu for seacrhing by experience -->
@@ -63,7 +63,7 @@
         <div class="col-md-3" ng-repeat="user in search.users | filter: search.input | filter: search.level">
           <div class="userinfo">
             <div class="userphotobox">
-              <img class="userphoto" src="{{ user.profileImageUrl }}">
+              <img class="userphoto" ng-src="{{ user.profileImageUrl }}">
             </div>
             <button type="button" class="btn btn-primary btn-sm chat-button" data-toggle="modal" data-target="#chatModal">
               Chat
