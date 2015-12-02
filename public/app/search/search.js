@@ -3,15 +3,16 @@
 
 angular.module('dvelop.search', ['dvelop.auth'])
 
-.controller('SearchController', function (currentAuth, $scope, logout, $location, $firebaseArray, $firebaseObject){
+.controller('SearchController', function (currentAuth, $scope, $rootScope, logout, $location, $firebaseArray, $firebaseObject){
 
   var search = this;
 
-  search.input = ''
+  search.input = '';
 
 
   // DB version : retrieving the data from DB.
-  search.users = $firebaseArray(new Firebase("https://shining-torch-3159.firebaseio.com/users"));
+  // search.users = $firebaseArray(new Firebase("https://shining-torch-3159.firebaseio.com/users"));
+  search.users = $firebaseArray($rootScope.fb.child('users'));
   //it is possible that you call object as an array using $firebaseArray;
 
   // search.users = $firebaseObject(new Firebase("https://shining-torch-3159.firebaseio.com/users")); //object version
@@ -20,5 +21,5 @@ angular.module('dvelop.search', ['dvelop.auth'])
   //logout func
   search.logout = logout.logout;
 
-})
+});
 
