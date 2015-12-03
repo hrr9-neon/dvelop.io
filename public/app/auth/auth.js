@@ -40,7 +40,7 @@ angular.module('dvelop.auth', [])
 
 })
 
-.factory('logout', function(Auth, $location){
+.factory('logout', function(Auth, $rootScope, $location){
     var logoutFn = function(){
       Auth.$unauth();
       delete $rootScope.loggedIn;

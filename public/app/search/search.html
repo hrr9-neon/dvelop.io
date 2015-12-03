@@ -16,8 +16,8 @@
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
       <ul class="nav navbar-nav">
-        <li><a href="#/signup">My Profile</a></li>
-        <li><a href="#/search">Search</a></li>
+        <li><a href="#/signup">MyProfile</a></li>
+        <li><a href="#/search">Community</a></li>
         <li><a href="#/messages">Messages</a></li>
       </ul>
 
@@ -29,7 +29,7 @@
 </nav>
 
 <!-- Search Bar -->
-<div class='container searchcontainer' align="center">
+<div class='container searchcontainer'>
   <div class="row">
     <div class="col-md-6 col-md-offset-4">
       <form name="searchForm" class="search-bar form-inline" action="/#/community">
@@ -41,18 +41,16 @@
   </div>
 </div>
 
-
-
 <!-- Drop down menu for seacrhing by experience -->
-<div class="dropdown-container" align="center">
+<!-- <div class="dropdown-container" align="center">
   <label>Professional Level: </label>
     <select ng-model="search.level">
       <option value="">Professional Level </option>
       <option value="Advanced">Advanced</option>
       <option value="Intermediate">Intermediate</option>
-      <option value="Novice">Novice</option>
+      <option value="Beginner">Beginner</option>
     </select>
-</div>
+</div> -->
 
 
 <!-- Search results, shows the summary profile of each of the users -->
@@ -68,13 +66,15 @@
             <button type="button" class="btn btn-primary btn-sm chat-button" data-toggle="modal" data-target="#chatModal">
               Chat
             </button>
-            <p class="userinfobox">Name: {{user.displayName}}</p>
-            <p class="userinfobox">Location: {{user.address}}</p>
-            <p class="userinfobox">Skill Level: {{user.professionalLevel}}</p>
-            <p class="userinfobox">Best at: {{user.bestAt}}</p>
-            <p class="userinfobox">Available for Mentor: {{user.mentorAvail}}</p>
-            <p class="userinfobox">Tech Skill: {{user.techSkill}}</p>
-            <p class="userinfobox">Help Skill: {{user.helpAvail}}</p>
+            
+            <p class="userinfobox">Name: <strong>{{user.displayName}}</strong></p>
+            <p class="userinfobox">Location: <strong>{{user.address}}</strong></p>
+            <p class="userinfobox">Skill Level: <strong>{{user.professionalLevel}}</strong></p>
+            <p class="userinfobox">Best at: <strong>{{user.bestAt}}</strong></p>
+            <p class="userinfobox">Available for Mentor: <strong>{{user.mentorAvail}}</strong></p>
+            <p class="userinfobox">Tech Skill: <strong>{{user.techSkill}}</strong></p>
+            <p class="userinfobox">Help Skill: <strong>{{user.helpAvail}}</strong></p>
+            
           </div>
         </div>
       </div>
