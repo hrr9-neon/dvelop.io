@@ -71,6 +71,29 @@ angular.module('dvelop.search', ['dvelop.auth'])
     }
   };
 
+
+  search.sendMessage2 = function() {
+    if(search.message.length > 0) {
+
+      console.log('trying to send message', search.message);
+
+      CheckRoomExist.checkRoom(search.currentUser, function(result){
+        search.roomID = result;
+        console.log(search.roomID);
+        if (search.roomID) {
+          var ref = $rootScope.fb.child('messages/' + search.roomID);
+          var msgs = $firebaseArray(ref);
+          msgs.$add({
+            sender: $rootScope.loggedIn.userID,
+            text: search.message,
+            timestamp: Firebase.ServerValue.TIMESTAMP
+          });
+          $scope.message = '';
+        }
+      });
+    }
+  };
+
   // DB version : retrieving the data from DB.
   // search.users = $firebaseArray(new Firebase("https://shining-torch-3159.firebaseio.com/users"));
   search.users = $firebaseArray($rootScope.fb.child('users'));
