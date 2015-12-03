@@ -58,11 +58,7 @@
     </div>
   </div>
 
-  <div class="message-pane">
-
-    <div class="header">
-      <h1>{{ messagesCtrl.channelName }}</h1>
-    </div>
+  <div class="message-pane" scroll-glue>
 
     <div class="message-wrap" ng-repeat="item in messages | orderBy: 'timestamp'">
       <img class="user-pic" ng-src="{{ item.senderpic }}" />
@@ -76,7 +72,6 @@
         </div>
       </div>
     </div>
-
     <form class="message-form" ng-submit="sendMessage()">
 
       <div class="input-group">
@@ -104,7 +99,13 @@
       </div>
       <div class="modal-body">
         <form>
-          <textarea class="form-control" rows="10"></textarea>
+          <select class="form-control" ng-repeat="item in otherRooms">
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+          </select>
         </form>
       </div>
       <div class="modal-footer">
