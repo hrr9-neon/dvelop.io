@@ -27,14 +27,7 @@ angular.module('dvelop.messages', [])
 
 })
 
-.factory('MyMessages', function($rootScope, $firebase) {
-
-  var getMessages = function(roomID, callback) {
-    var myMessages = $firebaseArray($rootScope.fb.child('messages/' + roomID));
-    console.log(myMessages);
-    callback(myMessages);
-  };
-
+.factory('MyMessages', function($rootScope, $firebase, UserName) {
 
   var getMessages = function(roomID, callback) {
     var myMessages = $rootScope.fb.child('messages/' + roomID);
@@ -42,15 +35,18 @@ angular.module('dvelop.messages', [])
     myMessages.on('value', function(snap) {
       var msglist = [];
       var result = snap.val();
-      console.log(result);
 
       for (var key in result) {
         if (result[key] !== 'private') {
-          msglist.push({
-            id: key,
-            text: result[key].text,
-            sender: result[key].sender,
-            timestamp: result[key].timestamp
+          UserName.getUsername(result[key].sender, function(usrname) {
+            msglist.push({
+              id: key,
+              text: result[key].text,
+              sender: usrname.displayName,
+              senderpic: usrname.profileImageUrl,
+              timestamp: result[key].timestamp
+            });
+
           });
         }
       }
@@ -65,28 +61,72 @@ angular.module('dvelop.messages', [])
 })
 
 
-// .factory('UserNames', function($rootScope, $firebase) {
+.factory('UserName', function($rootScope, $firebase) {
 
-// })
+  var getUsername = function(userID, callback) {
+    var userObj = $rootScope.fb.child('users/' + userID);
 
-.controller('MessagesController', function ($scope, $rootScope, logout, MyRooms, MyMessages){
-  $scope.messages;
-  $scope.publicrooms;
+    userObj.on('value', function(snap) {
+      var result = snap.val();
 
-  MyRooms.getRooms(function(list) {
-    $scope.publicrooms = list;
-    console.log($scope.publicrooms);
-  });
-
-  $scope.showMessages = function(room) {
-    console.log(room.name);
-    MyMessages.getMessages(room.id, function(msg) {
-      $scope.messages = msg;
-      console.log(msg[0].text);
+      callback(result);
     });
   };
 
+  return {
+    getUsername: getUsername
+  };
+})
 
+.factory('GUID', function() {
+  function guid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return s4() + s4() + s4() + s4() + s4() + s4() + s4() + s4();
+  }
+
+  return {
+    guid: guid
+  };
+})
+
+.controller('MessagesController', function ($scope, $rootScope, $firebaseArray, logout, MyRooms, MyMessages, GUID){
+  $scope.messages;
+  $scope.publicrooms;
+  $scope.selectedRoomIndex = -1;
+  $scope.selectedRoomID;
+  $scope.message = '';
+
+  MyRooms.getRooms(function(list) {
+    $scope.publicrooms = list;
+  });
+
+  $scope.showMessages = function(room, $index) {
+    MyMessages.getMessages(room.id, function(msg) {
+      $scope.messages = msg;
+      $scope.selectedRoomIndex = $index;
+      $scope.selectedRoomID = room.id;
+    });
+  };
+
+  $scope.sendMessage = function() {
+    if($scope.message.length > 0) {
+
+      var ref = $rootScope.fb.child('messages/' + $scope.selectedRoomID);
+      var msgs = $firebaseArray(ref);
+
+      msgs.$add({
+        sender: $rootScope.loggedIn.userID,
+        text: $scope.message,
+        timestamp: Firebase.ServerValue.TIMESTAMP
+      });
+
+      $scope.message = '';
+    }
+  };
 
   $scope.logout = logout.logout;
 

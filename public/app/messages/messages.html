@@ -28,10 +28,118 @@
   </div><!-- /.container-fluid -->
 </nav>
 
+
+
+<div class="main">
+  <div class="sidebar">
+
+    <div class="slack-name">
+      <h2>Dvelop.io</h2>
+    </div>
+
+    <div class="channel-list">
+      <div class="list-head">Rooms</div>
+      <div class="channel" ng-repeat="item in publicrooms">
+        <div class="rooms" ng-class="{ 'selected': $index == selectedRoomIndex }" ng-click="showMessages(item, $index)"># {{item.name}}</div>
+      </div>
+      <div class="channel create">
+        <a href="#">find room</a>
+      </div>
+      <div class="channel create">
+        <a href="#">+ create channel</a>
+      </div>
+
+<!--       <div class="list-head">Direct Messages</div>
+      <div class="channel" ng-repeat="user in channelsCtrl.users">
+        <a ng-if="user.$id !== channelsCtrl.profile.$id" ui-sref="channels.direct({uid: user.$id})" ui-sref-active="selected">
+          <span class="presence" ng-class="{online: user.online}"></span>
+          {{ user.displayName }}
+        </a>
+      </div> -->
+    </div>
+
+<!--     <div class="my-info">
+      <img class="user-pic" ng-src="{{ channelsCtrl.getGravatar(channelsCtrl.profile.$id) }}" />
+      <div class="user-info">
+        <div class="user-name">
+          <span class="presence" ng-class="{online: channelsCtrl.profile.online}"></span>
+          {{ channelsCtrl.profile.displayName }}
+        </div>
+
+        <div class="options">
+          <a ui-sref="profile">edit profile</a>
+          /
+          <a href="#" ng-click="channelsCtrl.logout()">logout</a>
+        </div>
+      </div>
+    </div>
+ -->
+  </div>
+
+  <div class="message-pane">
+
+    <div class="header">
+      <h1>{{ messagesCtrl.channelName }}</h1>
+    </div>
+
+    <div class="message-wrap" ng-repeat="item in messages | orderBy: 'timestamp':true">
+      <img class="user-pic" ng-src="{{ item.senderpic }}" />
+      <div class="message-info">
+        <div class="user-name">
+          {{ item.sender }}
+          <span class="timestamp">{{ item.timestamp | date:'short' }}</span>
+        </div>
+        <div class="message">
+         {{ item.text }}
+        </div>
+      </div>
+    </div>
+
+    <form class="message-form" ng-submit="sendMessage()">
+
+      <div class="input-group">
+        <input type="text" class="form-control" ng-model="message" placeholder="Type a message...">
+        <span class="input-group-btn">
+          <button class="btn btn-default" type="submit">Send</button>
+        </span>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
+
+
+<!-- Modal for channel selection -->
+<div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Select room</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <textarea class="form-control" rows="10"></textarea>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+
+
+<!--
 <div class="container">
   <div class="row">
     <div class="col-md-2">Rooms:
-      <div class="row" ng-repeat="item in publicrooms track by $index">
+      <div class="row" ng-repeat="item in publicrooms">
         <div class="col-md-12 rooms" ng-click="showMessages(item)">
           {{item.name}}
         </div>
@@ -39,10 +147,18 @@
     </div>
     <div class="col-md-10">
       <div class="row" ng-repeat="item in messages">
-        <div class="col-md-12 rooms" >
-          {{item.text}}
+        <div class="col-md-1">
+          <img class="userphotothumb" ng-src="{{ item.senderpic }}">
+        </div>
+        <div class="col-md-11" >
+          <div>
+            <b>{{item.sender}}</b> <span>{{item.timestamp}}</span>
+          </div>
+          <div>
+            {{item.text}}
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+</div> -->
