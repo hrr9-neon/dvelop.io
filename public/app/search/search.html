@@ -63,10 +63,10 @@
             <div class="userphotobox">
               <img class="userphoto" ng-src="{{ user.profileImageUrl }}">
             </div>
-            <button type="button" class="btn btn-primary btn-sm chat-button" data-toggle="modal" data-target="#chatModal">
+            <button type="button" class="btn btn-primary btn-sm chat-button" data-toggle="modal" data-target="#chatModal" ng-click="search.changeUser(user.$id)">
               Chat
             </button>
-            
+
             <p class="userinfobox">Name: <strong>{{user.displayName}}</strong></p>
             <p class="userinfobox">Location: <strong>{{user.address}}</strong></p>
             <p class="userinfobox">Skill Level: <strong>{{user.professionalLevel}}</strong></p>
@@ -74,7 +74,7 @@
             <p class="userinfobox">Available for Mentor: <strong>{{user.mentorAvail}}</strong></p>
             <p class="userinfobox">Tech Skill: <strong>{{user.techSkill}}</strong></p>
             <p class="userinfobox">Help Skill: <strong>{{user.helpAvail}}</strong></p>
-            
+
           </div>
         </div>
       </div>
@@ -92,11 +92,11 @@
       </div>
       <div class="modal-body">
         <form>
-          <textarea class="form-control" rows="10"></textarea>
+          <textarea class="form-control" rows="10" ng-model="search.message" placeholder="Type a message..."></textarea>
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Send</button>
+        <button type="button" class="btn btn-primary" ng-click="search.sendMessage()" data-dismiss="modal">Send</button>
       </div>
     </div>
   </div>

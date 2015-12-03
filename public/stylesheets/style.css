@@ -182,8 +182,11 @@ a {
   text-decoration: none !important;
 }
 
-.sidebar .channel-list .channel.create {
+.sidebar .channel-list .channel.create div{
   font-style: italic;
+  color: #00B7FF;
+  cursor: pointer;
+  cursor: hand;
 }
 
 .sidebar .channel-list .list-head {
