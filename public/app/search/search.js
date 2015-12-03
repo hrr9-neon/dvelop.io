@@ -7,12 +7,14 @@ angular.module('dvelop.search', ['dvelop.auth'])
   var checkRoom = function(userID, callback) {
     var memObj = $rootScope.fb.child('membership');
 
-    memObj.on('value', function(snap) {
+    //seth changed this from memObj.on... to memObj.once...
+    //to avoid crazy database behaviors when this is continually listening...
+    memObj.once('value', function(snap) {
       var result = snap.val();
-      console.log(result);
+      console.log('value of the membership snapshot:', result);
       var exist = null;
       for (var room in result) {
-        console.log(result[room].hasOwnProperty($rootScope.loggedIn.userID));
+        console.log('value of membership snapshot room attribute: does it have property of userID?', result[room].hasOwnProperty($rootScope.loggedIn.userID));
         if (result[room].hasOwnProperty($rootScope.loggedIn.userID) && result[room].hasOwnProperty(userID)) {
           exist = room;
         }
@@ -38,11 +40,80 @@ angular.module('dvelop.search', ['dvelop.auth'])
 })
 
 //seth added this and added this factory to SearchController
-.factory('MakeRoom', function($rootScope, $firebase) {
-  var makeRoom = function(userID) {
-    console.log('we need to make a new room here');
-    console.log('sender=', $rootScope.loggedIn.userID);
-    console.log('who=', userID);
+.factory('MakeRoom', function($rootScope, $firebaseArray) {
+  var makeRoom = function(userID, callback) {
+    //console.log('we need to make a new room here');
+    //console.log('sender=', $rootScope.loggedIn.userID);
+    var senderID = $rootScope.loggedIn.userID;
+    //console.log('who=', userID);
+    var recipientID = userID;
+    //step1: create room
+    var roomref = $rootScope.fb.child('rooms');
+    var rooms = $firebaseArray(roomref);
+    rooms.$add({type: "private"}).then(function(ref) {
+      var roomid = ref.key();
+      console.log("added room with id " + roomid);
+      //step2: create membership
+      var membershipsref = $rootScope.fb.child('membership');
+      var memberships = $firebaseArray(membershipsref);
+      //have to get users.displayName
+      var newmembership = {};
+      var usersref = $rootScope.fb.child('users');
+      var users = $firebaseArray(usersref);
+      users.$loaded().then(function() {
+        var senderUser = null;
+        var recipientUser = null;
+        var sendUserRef = new Firebase('https://shining-torch-3159.firebaseio.com/users/' + senderID);
+        var recipientUserRef = new Firebase('https://shining-torch-3159.firebaseio.com/users/' + recipientID);
+        angular.forEach(users, function(user) {
+          //console.log(user, senderID, recipientID);
+          if(user.$id === senderID) {
+            newmembership[user.$id] = user.displayName;
+            senderUser = user;
+            if(senderUser.rooms === undefined) {
+              senderUser.rooms = {};
+            }
+          } else if (user.$id === recipientID) {
+            newmembership[user.$id] = user.displayName;
+            recipientUser = user;
+            if(recipientUser.rooms === undefined) {
+              recipientUser.rooms = {};
+            }
+          }
+        });
+        //console.log(newmembership);
+        memberships.$add(newmembership).then(function(memref) {
+          var memrefid = memref.key();
+          console.log("added membership with id " + memrefid);
+          //step3: add room to users, make sure value is always private
+          console.log("senderUser rooms", senderUser.rooms);
+          senderUser.rooms[roomid] = "private";
+          recipientUser.rooms[roomid] = "private";
+          sendUserRef.update({rooms: senderUser.rooms}, function(error) {
+            if(error) {
+              console.log('sync error with sender', error);
+            } else {
+              console.log('sync succeed with sender');
+              recipientUserRef.update({rooms: recipientUser.rooms}, function(error) {
+                if(error) {
+                  console.log('sync error with recipient', error);
+                } else {
+                  console.log('sync succeed with recipient');
+                  callback();
+                }
+              });
+            }
+          });
+        });
+      })
+      // for(user in users) {
+      //   if(user === senderID) {
+      //     newmembership[senderID] = user.displayName;
+      //   }
+      // }
+      // console.log(newmembership);
+
+    });
     //create room
       //id assigned automatically
       //don't need name
@@ -86,7 +157,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
 
   search.changeUser = function(userid) {
     search.currentUser = userid;
-    console.log(search.currentUser);
+    console.log('search.currentUser reset to', search.currentUser);
   };
 
   //seth did not touch this original version...
@@ -136,7 +207,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
           });
         } else {
           console.log('search.roomID is falsy', search.roomID);
-          MakeRoom.makeRoom(search.currentUser);
+          MakeRoom.makeRoom(search.currentUser, search.sendMessage2);
         }
       });
     }
