@@ -40,7 +40,7 @@ angular.module('dvelop.search', ['dvelop.auth'])
 })
 
 //seth added this and added this factory to SearchController
-.factory('MakeRoom', function($rootScope, $firebaseArray) {
+.factory('MakeRoom', function($rootScope, $firebaseArray, $firebase) {
   var makeRoom = function(userID, callback) {
     //console.log('we need to make a new room here');
     //console.log('sender=', $rootScope.loggedIn.userID);
@@ -81,31 +81,35 @@ angular.module('dvelop.search', ['dvelop.auth'])
             }
           }
         });
+
+        // var mships = $firebase(membershipsref);
+        membershipsref.child(roomid).set(newmembership);
         //console.log(newmembership);
-        memberships.$add(newmembership).then(function(memref) {
-          var memrefid = memref.key();
-          console.log("added membership with id " + memrefid);
-          //step3: add room to users, make sure value is always private
-          console.log("senderUser rooms", senderUser.rooms);
-          senderUser.rooms[roomid] = "private";
-          recipientUser.rooms[roomid] = "private";
-          sendUserRef.update({rooms: senderUser.rooms}, function(error) {
-            if(error) {
-              console.log('sync error with sender', error);
-            } else {
-              console.log('sync succeed with sender');
-              recipientUserRef.update({rooms: recipientUser.rooms}, function(error) {
-                if(error) {
-                  console.log('sync error with recipient', error);
-                } else {
-                  console.log('sync succeed with recipient');
-                  callback();
-                }
-              });
-            }
-          });
+        console.log("senderUser rooms", senderUser.rooms);
+        senderUser.rooms[roomid] = "private";
+        recipientUser.rooms[roomid] = "private";
+        sendUserRef.update({rooms: senderUser.rooms}, function(error) {
+          if(error) {
+            console.log('sync error with sender', error);
+          } else {
+            console.log('sync succeed with sender');
+            recipientUserRef.update({rooms: recipientUser.rooms}, function(error) {
+              if(error) {
+                console.log('sync error with recipient', error);
+              } else {
+                console.log('sync succeed with recipient');
+                callback();
+              }
+            });
+          }
         });
-      })
+
+        // memberships.$add(newmembership).then(function(memref) {
+        //   var memrefid = memref.key();
+        //   console.log("added membership with id " + memrefid);
+        //   //step3: add room to users, make sure value is always private
+        // });
+      });
       // for(user in users) {
       //   if(user === senderID) {
       //     newmembership[senderID] = user.displayName;

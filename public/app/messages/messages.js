@@ -19,7 +19,7 @@ angular.module('dvelop.messages', ['luegg.directives'])
     var rooms = [];
     ref.orderByChild('type').equalTo('public').on('child_added', function(snap) {
 
-      console.log(snap.val());
+      // console.log(snap.val());
 
       if (existing.indexOf(snap.key()) === -1){
         rooms.push({
@@ -129,13 +129,16 @@ angular.module('dvelop.messages', ['luegg.directives'])
 
 .factory('Membership', function($rootScope, $firebase) {
   var getMembers = function(roomID, callback) {
-    var memObj = $rootScope.fb.child('membership/' + roomID);
+    console.log(roomID);
+    var memObj = new Firebase("https://shining-torch-3159.firebaseio.com/membership/" + roomID.trim());
+    // var memObj = $rootScope.fb.child('membership/' + roomID);
 
     memObj.on('value', function(snap) {
       var result = snap.val();
       var memArr;
 
       for (var key in result) {
+        console.log(key + ': ' + result[key]);
         if ($rootScope.loggedIn.userID !== key) {
           memArr = {
             userid: key,
