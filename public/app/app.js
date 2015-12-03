@@ -4,7 +4,8 @@ angular.module('dvelop', [
   'dvelop.search',
   'dvelop.signup',
   'dvelop.messages',
-  'ngRoute'
+  'ngRoute',
+  'luegg.directives'
 ])
 
 .run(["$rootScope", "$location", function($rootScope, $location) {

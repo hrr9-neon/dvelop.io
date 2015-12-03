@@ -1,4 +1,44 @@
-angular.module('dvelop.messages', [])
+angular.module('dvelop.messages', ['luegg.directives'])
+.directive('onFinishRender', function ($timeout) {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attr) {
+      if (scope.$last === true) {
+        $timeout(function () {
+          scope.$emit('ngRepeatFinished');
+        });
+      }
+    }
+  };
+})
+
+.factory('AllPublicRooms', function($rootScope, $firebase, $timeout) {
+
+  var getPublicRooms = function(existing, callback) {
+    var ref = $rootScope.fb.child('rooms');
+    var rooms = [];
+    ref.orderByChild('type').equalTo('public').on('child_added', function(snap) {
+
+      console.log(snap.val());
+
+      if (existing.indexOf(snap.key()) === -1){
+        rooms.push({
+          id: snap.key(),
+          name: snap.val().name
+        });
+      }
+    });
+
+    $timeout(function() {
+      callback(rooms);
+    }, 500);
+
+  };
+
+  return {
+    getPublicRooms: getPublicRooms
+  };
+})
 
 .factory('MyRooms', function($rootScope, $firebase) {
   var myRooms = $rootScope.fb.child('users/' + $rootScope.loggedIn.userID + '/rooms');
@@ -55,7 +95,7 @@ angular.module('dvelop.messages', [])
 
 })
 
-.factory('MyMessages', function($rootScope, $firebase, UserName) {
+.factory('MyMessages', function($rootScope, $firebase, UserName, $timeout) {
 
   var getMessages = function(roomID, callback) {
     var myMessages = $rootScope.fb.child('messages/' + roomID);
@@ -75,8 +115,10 @@ angular.module('dvelop.messages', [])
           });
         });
       }
-
-      callback(msglist);
+      $timeout(function() {
+        callback(msglist);
+      }, 100);
+      // callback(msglist);
     });
   };
 
@@ -146,13 +188,14 @@ angular.module('dvelop.messages', [])
   };
 })
 
-.controller('MessagesController', function ($scope, $rootScope, $firebaseArray, logout, MyRooms, MyChats, MyMessages){
+.controller('MessagesController', function ($scope, $rootScope, $firebaseArray, logout, MyRooms, MyChats, MyMessages, AllPublicRooms, $timeout){
   $scope.messages;
   $scope.publicrooms;
   $scope.privaterooms;
   $scope.selectedPublicRoomIndex = -1;
   $scope.selectedPrivateRoomIndex = -1;
   $scope.selectedRoomID;
+  $scope.otherRooms;
   $scope.message = '';
 
   MyRooms.getRooms(function(publiclist) {
@@ -163,6 +206,23 @@ angular.module('dvelop.messages', [])
     $scope.privaterooms = privatelist;
     console.log(privatelist);
   });
+
+  $scope.otherPublicRooms = function() {
+    var arr = [];
+    $scope.publicrooms.forEach(function(item) {
+      arr.push(item.id);
+    });
+
+    AllPublicRooms.getPublicRooms(arr, function(rooms) {
+      $scope.otherRooms = rooms;
+      console.log(rooms);
+    });
+
+  };
+
+  $timeout(function() {
+    $scope.otherPublicRooms();
+  }, 500);
 
   $scope.showMessages = function(room, $index, roomType) {
     MyMessages.getMessages(room.id, function(msg) {
@@ -193,6 +253,11 @@ angular.module('dvelop.messages', [])
       $scope.message = '';
     }
   };
+
+  $scope.$on('ngRepeatFinished', function(ngRepeatFinishedEvent) {
+      //you also get the actual event object
+      //do stuff, execute functions -- whatever...
+  });
 
   $scope.logout = logout.logout;
 
