@@ -37,7 +37,45 @@ angular.module('dvelop.search', ['dvelop.auth'])
   };
 })
 
-.controller('SearchController', function (currentAuth, $scope, $rootScope, logout, $location, $firebaseArray, $firebaseObject, CheckRoomExist){
+//seth added this and added this factory to SearchController
+.factory('MakeRoom', function($rootScope, $firebase) {
+  var makeRoom = function(userID) {
+    console.log('we need to make a new room here');
+    console.log('sender=', $rootScope.loggedIn.userID);
+    console.log('who=', userID);
+    //create room
+      //id assigned automatically
+      //don't need name
+      //type: "private"
+      //{id: id, type: "private"}
+      //create ref to obj
+      //
+    //get room id
+    //make membership
+    //add room to users (make sure value is always "private")
+    //var ref = $rootScope.fb.child('membership')
+    //var membershiparr = $firebaseArray(ref);
+    //membershiparr.$add()
+
+    /*
+    var ref = $rootScope.fb.child('messages/' + search.roomID);
+    var msgs = $firebaseArray(ref);
+    console.log('these are msgs in room: ', msgs);
+    msgs.$add({
+      sender: $rootScope.loggedIn.userID,
+      text: search.message,
+      timestamp: Firebase.ServerValue.TIMESTAMP
+    })
+    */
+
+  };
+
+  return {
+    makeRoom: makeRoom
+  };
+})
+
+.controller('SearchController', function (currentAuth, $scope, $rootScope, logout, $location, $firebaseArray, $firebaseObject, CheckRoomExist, MakeRoom){
 
   var search = this;
 
@@ -51,24 +89,59 @@ angular.module('dvelop.search', ['dvelop.auth'])
     console.log(search.currentUser);
   };
 
-  search.sendMessage = function() {
+  //seth did not touch this original version...
+  // search.sendMessage = function() {
+  //   if(search.message.length > 0) {
+
+  //     CheckRoomExist.checkRoom(search.currentUser, function(result){
+  //       search.roomID = result;
+  //     });
+  //     console.log(search.roomID);
+  //     if (search.roomID) {
+  //       var ref = $rootScope.fb.child('messages/' + search.roomID);
+  //       var msgs = $firebaseArray(ref);
+  //       msgs.$add({
+  //         sender: $rootScope.loggedIn.userID,
+  //         text: search.message,
+  //         timestamp: Firebase.ServerValue.TIMESTAMP
+  //       });
+  //       $scope.message = '';
+  //     }
+  //   }
+  // };
+
+  //seth was playing with this...
+  search.sendMessage2 = function() {
     if(search.message.length > 0) {
+
+      console.log('trying to send message', search.message);
 
       CheckRoomExist.checkRoom(search.currentUser, function(result){
         search.roomID = result;
+        console.log('search.roomID=', search.roomID);
+        if (search.roomID) {
+          var ref = $rootScope.fb.child('messages/' + search.roomID);
+          var msgs = $firebaseArray(ref);
+          console.log('these are msgs in room: ', msgs);
+          msgs.$add({
+            sender: $rootScope.loggedIn.userID,
+            text: search.message,
+            timestamp: Firebase.ServerValue.TIMESTAMP
+          }).then(function(ref) {
+            //this promise added mainly to try to zero out $scope.message
+            //not working to do that
+            var id = ref.key();
+            console.log("added record with id " + id);
+            $scope.message = '';
+          });
+        } else {
+          console.log('search.roomID is falsy', search.roomID);
+          MakeRoom.makeRoom(search.currentUser);
+        }
       });
-      console.log(search.roomID);
-      if (search.roomID) {
-        var ref = $rootScope.fb.child('messages/' + search.roomID);
-        var msgs = $firebaseArray(ref);
-        msgs.$add({
-          sender: $rootScope.loggedIn.userID,
-          text: search.message,
-          timestamp: Firebase.ServerValue.TIMESTAMP
-        });
-        $scope.message = '';
-      }
     }
+    //this is not resetting msg to blank after send??
+    //$scope.message = '';
   };
 
   // DB version : retrieving the data from DB.
