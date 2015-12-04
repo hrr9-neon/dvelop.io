@@ -3,7 +3,21 @@ angular.module('dvelop.signup', ['dvelop.auth'])
 .controller('SignupController', function(logout, currentAuth, $scope, Auth, $location, $rootScope, $firebaseObject){
 
   $scope.user = {};
-  $scope.user.profileImageUrl = $rootScope.loggedIn.imageURL
+  $scope.user.profileImageUrl = $rootScope.loggedIn.imageURL;
+
+  // var ref = new Firebase("https://shining-torch-3159.firebaseio.com/users/");
+  // var uid = $rootScope.loggedIn.userID;
+  // var usersRef = ref.child(uid+'/online');
+  // var lastOnlineRef = ref.child(uid+'/lastonline');
+  // var FirebaseUrl = "https://shining-torch-3159.firebaseio.com/";
+  // var connectedRef = new Firebase(FirebaseUrl+'.info/connected');
+  // var connected = $firebaseObject(connectedRef);
+  // connected.$watch(function() {
+  //   if(connected.$value === true) {
+  //     usersRef.set(true);
+  //     lastOnlineRef.set('now');
+  //   }
+  // });
 
   var userData = $rootScope.fb.child('users/' + $rootScope.loggedIn.userID);
 
@@ -20,6 +34,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
     $scope.user.helpAvail = $scope.currentUser.helpAvail;
     $scope.user.job = $scope.currentUser.job;
     $scope.user.mentorAvail = $scope.currentUser.mentorAvail;
+    $scope.user.lastonline = $scope.currentUser.lastonline;
   });
 
   $scope.saveData = function(){

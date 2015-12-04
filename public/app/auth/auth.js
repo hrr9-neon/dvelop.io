@@ -20,15 +20,17 @@ angular.module('dvelop.auth', [])
       //this needs work...
     .then(function(authData){
       if ($rootScope.loggedIn) {
+        console.log('setting loggedIn for defined $rootScope.loggedIn', $rootScope.loggedIn.userID);
         Users.setOnline($rootScope.loggedIn.userID);
         $location.path('/search');
-      } else{
+      } else {
         $rootScope.loggedIn = {
           userID: authData.github.id,
           displayName: authData.github.displayName,
           email: authData.github.email,
           imageURL: authData.github.profileImageURL
         };
+        console.log('setting loggedIn for undefined $rootScope.loggedIn', $rootScope.loggedIn.userID);
         Users.setOnline($rootScope.loggedIn.userID);
         // var ref = new Firebase("https://shining-torch-3159.firebaseio.com/users/" + $rootScope.loggedIn.userID);
         // var refObj = $firebaseObject(ref);
