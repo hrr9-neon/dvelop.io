@@ -15,6 +15,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
     $scope.user.profileImageUrl = $scope.currentUser.profileImageUrl;
     $scope.user.address = $scope.currentUser.address;
     $scope.user.bestAt = $scope.currentUser.bestAt;
+    $scope.user.techSkill = $scope.currentUser.techSkill;
     $scope.user.helpAvail = $scope.currentUser.helpAvail;
     $scope.user.job = $scope.currentUser.job;
     $scope.user.mentorAvail = $scope.currentUser.mentorAvail;

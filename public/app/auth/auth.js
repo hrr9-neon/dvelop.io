@@ -10,7 +10,7 @@ angular.module('dvelop.auth', [])
   return $firebaseAuth(usersRef);
 })
 
-.controller('AuthController', function($scope, Auth, $location, $rootScope, $firebase, Users){
+.controller('AuthController', function($scope, Auth, $location, $rootScope, $firebase, $firebaseObject, Users){
 
   $rootScope.fb = new Firebase("https://shining-torch-3159.firebaseio.com");
   $rootScope.loggedIn = null;
@@ -28,9 +28,15 @@ angular.module('dvelop.auth', [])
           displayName: authData.github.displayName,
           email: authData.github.email,
           imageURL: authData.github.profileImageURL
-        };       
+        };
         Users.setOnline($rootScope.loggedIn.userID);
-        $location.path('/search');
+        // var ref = new Firebase("https://shining-torch-3159.firebaseio.com/users/" + $rootScope.loggedIn.userID);
+        // var refObj = $firebaseObject(ref);
+        // if (refObj.hasOwnProperty('displayName')) {
+        //   $location.path('/search');
+        // } else {
+        $location.path('/signup');
+        // }
       }
     });
   };
@@ -45,7 +51,7 @@ angular.module('dvelop.auth', [])
 .factory('logout', function(Auth, $rootScope, $location, $firebaseObject){
   //todo: this is hard coded, needs to be part of config or $rootScope
   //var FirebaseUrl = "https://shining-torch-3159.firebaseio.com/";
-  //var usersRef = new Firebase(FirebaseUrl+'users');  
+  //var usersRef = new Firebase(FirebaseUrl+'users');
   var logoutFn = function(){
     var FirebaseUrl = "https://shining-torch-3159.firebaseio.com/";
     var uid = $rootScope.loggedIn.userID
@@ -60,7 +66,7 @@ angular.module('dvelop.auth', [])
       if(connected.$value === true) {
         usersRef.set(false);
         lastOnlineRef.set(Firebase.ServerValue.TIMESTAMP);
-      } 
+      }
     });
     $location.path('/auth');
 
