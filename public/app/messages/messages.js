@@ -201,7 +201,7 @@ angular.module('dvelop.messages', ['luegg.directives'])
 .controller('MessagesController', function ($scope, $rootScope, $firebaseArray, logout, MyRooms, MyChats, MyMessages, AllPublicRooms, $timeout){
   $scope.messages;
   $scope.publicrooms;
-  $scope.privaterooms;
+  $scope.privaterooms = [];
   $scope.selectedPublicRoomIndex = -1;
   $scope.selectedPrivateRoomIndex = -1;
   $scope.selectedRoomID;
@@ -213,6 +213,16 @@ angular.module('dvelop.messages', ['luegg.directives'])
   });
 
   MyChats.getRooms(function(privatelist) {
+    privatelist.forEach(function(item) {
+      var exist = false;
+      $scope.privaterooms.forEach(function(room) {
+        if (item.user.id === room.user.id) {
+          exist = true;
+        }
+      });
+      if (!exist) { $scope.privaterooms.push(item); }
+    });
+
     $scope.privaterooms = privatelist;
     console.log(privatelist);
   });
