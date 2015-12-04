@@ -48,7 +48,7 @@
 
       <div class="list-head">Direct Messages</div>
       <div class="channel" ng-repeat="item in privaterooms">
-        <div class="rooms" ng-class="{ 'selected': $index == selectedPrivateRoomIndex }" ng-click="showMessages(item, $index, 'private')"> {{item.user.name}}</div>
+        <div class="rooms" ng-class="{ 'selected': $index == selectedPrivateRoomIndex }" ng-click="showMessages(item, $index, 'private')"><span class="presence" ng-class="{online: item.user.online}"></span> {{item.user.name}}</div>
 <!--
         <a ng-if="user.$id !== channelsCtrl.profile.$id" ui-sref="channels.direct({uid: user.$id})" ui-sref-active="selected">
           <span class="presence" ng-class="{online: user.online}"></span>
