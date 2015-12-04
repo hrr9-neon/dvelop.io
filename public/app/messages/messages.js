@@ -210,7 +210,7 @@ angular.module('dvelop.messages', ['luegg.directives'])
   $scope.messages;
   $scope.publicrooms;
   $scope.privaterooms = [];
-  $scope.selectedPublicRoomIndex = -1;
+  $scope.selectedPublicRoomIndex = 0;
   $scope.selectedPrivateRoomIndex = -1;
   $scope.selectedRoomID;
   $scope.otherRooms;
@@ -269,6 +269,13 @@ angular.module('dvelop.messages', ['luegg.directives'])
       }
     });
   };
+
+  MyMessages.getMessages('----3c738eedf4084011808f288d2497c481', function(msg){
+    $scope.messages = msg;
+    $scope.selectedRoomID = '----3c738eedf4084011808f288d2497c481';
+    $scope.selectedPublicRoomIndex = 0;
+    $scope.selectedPrivateRoomIndex = -1;
+  });
 
   $scope.sendMessage = function() {
     if($scope.message.length > 0) {

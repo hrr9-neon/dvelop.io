@@ -48,10 +48,10 @@ angular.module('dvelop.signup', ['dvelop.auth'])
     }
     var userRef = $rootScope.fb.child('users');
     userRef.child($rootScope.loggedIn.userID).update(objectToSave);
-    userRef.child($rootScope.loggedIn.userID).child('rooms').child('3c738eedf4084011808f288d2497c481').set('general');
+    userRef.child($rootScope.loggedIn.userID).child('rooms').child('----3c738eedf4084011808f288d2497c481').set('general');
     var memberRef = $rootScope.fb.child('membership');
     //var membershipToSave = {$rootScope.loggedIn.userID: objectToSave.displayName};
-    memberRef.child('3c738eedf4084011808f288d2497c481').child($rootScope.loggedIn.userID).set(objectToSave.displayName);
+    memberRef.child('----3c738eedf4084011808f288d2497c481').child($rootScope.loggedIn.userID).set(objectToSave.displayName);
     //memberRef.update();
     //userRef.child($rootScope.loggedIn.userID).set($scope.user);
     $location.path('/search'); //object version
