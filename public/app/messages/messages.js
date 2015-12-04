@@ -66,7 +66,7 @@ angular.module('dvelop.messages', ['luegg.directives'])
 
 })
 
-.factory('MyChats', function($rootScope, $firebase, Membership) {
+.factory('MyChats', function($rootScope, $firebase, Membership, $timeout) {
   var myRooms = $rootScope.fb.child('users/' + $rootScope.loggedIn.userID + '/rooms');
 
   var getRooms = function(callback) {
@@ -74,18 +74,25 @@ angular.module('dvelop.messages', ['luegg.directives'])
       var privateList = [];
       var result = snap.val();
 
-      for (var key in result) {
-        if (result[key] === 'private') {
-          Membership.getMembers(key, function(members) {
+      for (var k in result) {
+        if (result[k] === 'private') {
+          var temp = k;
+          Membership.getMembers(temp, function(members, room) {
+
+            console.log(room, members);
             privateList.push({
-              id: key,
+              id: room,
               user: members
             });
           });
         }
       }
-      console.log(privateList);
-      callback(privateList);
+
+      $timeout(function() {
+        console.log(privateList);
+        callback(privateList);
+      }, 1000);
+
     });
   };
 
@@ -128,18 +135,18 @@ angular.module('dvelop.messages', ['luegg.directives'])
   };
 })
 
-.factory('Membership', function($rootScope, $firebase, UserName) {
+.factory('Membership', function($rootScope, $firebase, UserName, $timeout) {
   var getMembers = function(roomID, callback) {
-    console.log(roomID);
+    // console.log(roomID);
     var memObj = new Firebase("https://shining-torch-3159.firebaseio.com/membership/" + roomID.trim());
     // var memObj = $rootScope.fb.child('membership/' + roomID);
 
-    memObj.on('value', function(snap) {
+    memObj.once('value', function(snap) {
       var result = snap.val();
       var memArr;
 
       for (var key in result) {
-        console.log(key + ': ' + result[key]);
+        // console.log(key + ': ' + result[key]);
         if ($rootScope.loggedIn.userID !== key) {
 
           UserName.getUsername(key, function(usr) {
@@ -150,8 +157,9 @@ angular.module('dvelop.messages', ['luegg.directives'])
               online: usr.online
             };
             console.log(memArr);
-
-            callback(memArr);
+            // $timeout(function() {
+              callback(memArr, roomID);
+            // }, 500);
 
           });
         }
@@ -213,18 +221,21 @@ angular.module('dvelop.messages', ['luegg.directives'])
   });
 
   MyChats.getRooms(function(privatelist) {
+    // console.log(privatelist.length);
     privatelist.forEach(function(item) {
       var exist = false;
       $scope.privaterooms.forEach(function(room) {
-        if (item.user.id === room.user.id) {
+        if (item.user.userid === room.user.userid) {
           exist = true;
+          room.user.online = item.user.online;
+          console.log(room.user.online);
         }
       });
       if (!exist) { $scope.privaterooms.push(item); }
     });
 
-    $scope.privaterooms = privatelist;
-    console.log(privatelist);
+    // $scope.privaterooms = privatelist;
+    console.log($scope.privaterooms);
   });
 
   $scope.otherPublicRooms = function() {
@@ -235,7 +246,7 @@ angular.module('dvelop.messages', ['luegg.directives'])
 
     AllPublicRooms.getPublicRooms(arr, function(rooms) {
       $scope.otherRooms = rooms;
-      console.log(rooms);
+      // console.log(rooms);
     });
 
   };
@@ -245,6 +256,7 @@ angular.module('dvelop.messages', ['luegg.directives'])
   }, 500);
 
   $scope.showMessages = function(room, $index, roomType) {
+    console.log(room);
     MyMessages.getMessages(room.id, function(msg) {
       $scope.messages = msg;
       $scope.selectedRoomID = room.id;
