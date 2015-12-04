@@ -4,6 +4,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
 
   $scope.user = {};
   $scope.user.profileImageUrl = $rootScope.loggedIn.imageURL;
+  $scope.user.rooms = {'3c738eedf4084011808f288d2497c481': "General"};
 
   // var ref = new Firebase("https://shining-torch-3159.firebaseio.com/users/");
   // var uid = $rootScope.loggedIn.userID;
@@ -46,7 +47,11 @@ angular.module('dvelop.signup', ['dvelop.auth'])
       }
     }
     var userRef = $rootScope.fb.child('users');
-    userRef.child($rootScope.loggedIn.userID).set(objectToSave);
+    userRef.child($rootScope.loggedIn.userID).update(objectToSave);
+    var memberRef = $rootScope.fb.child('membership');
+    //var membershipToSave = {$rootScope.loggedIn.userID: objectToSave.displayName};
+    memberRef.child('3c738eedf4084011808f288d2497c481').child($rootScope.loggedIn.userID).set(objectToSave.displayName);
+    //memberRef.update();
     //userRef.child($rootScope.loggedIn.userID).set($scope.user);
     $location.path('/search'); //object version
   };
