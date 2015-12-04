@@ -47,12 +47,14 @@ angular.module('dvelop.search', ['dvelop.auth'])
     var senderID = $rootScope.loggedIn.userID;
     //console.log('who=', userID);
     var recipientID = userID;
+    
     //step1: create room
     var roomref = $rootScope.fb.child('rooms');
     var rooms = $firebaseArray(roomref);
     rooms.$add({type: "private"}).then(function(ref) {
       var roomid = ref.key();
       console.log("added room with id " + roomid);
+      
       //step2: create membership
       var membershipsref = $rootScope.fb.child('membership');
       var memberships = $firebaseArray(membershipsref);
