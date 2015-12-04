@@ -12,7 +12,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
     $scope.user.emailAddress = $scope.currentUser.emailAddress;
     // $scope.user.birthday = $scope.currentUser.birthday;
     $scope.user.professionalLevel = $scope.currentUser.professionalLevel;
-    $scope.user.profileImageUrl = $scope.currentUser.profileImageUrl;
+    $scope.user.profileImageUrl = $rootScope.loggedIn.imageURL;
     $scope.user.address = $scope.currentUser.address;
     $scope.user.bestAt = $scope.currentUser.bestAt;
     $scope.user.techSkill = $scope.currentUser.techSkill;
@@ -23,7 +23,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
 
   $scope.saveData = function(){
     var userRef = $rootScope.fb.child('users');
-    userRef.child($rootScope.loggedIn.userID).update($scope.user);
+    userRef.child($rootScope.loggedIn.userID).set($scope.user);
     $location.path('/search'); //object version
   };
 
