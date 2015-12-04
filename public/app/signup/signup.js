@@ -3,6 +3,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
 .controller('SignupController', function(logout, currentAuth, $scope, Auth, $location, $rootScope, $firebaseObject){
 
   $scope.user = {};
+  $scope.user.profileImageUrl = $rootScope.loggedIn.imageURL
 
   var userData = $rootScope.fb.child('users/' + $rootScope.loggedIn.userID);
 
@@ -12,7 +13,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
     $scope.user.emailAddress = $scope.currentUser.emailAddress;
     // $scope.user.birthday = $scope.currentUser.birthday;
     $scope.user.professionalLevel = $scope.currentUser.professionalLevel;
-    $scope.user.profileImageUrl = $rootScope.loggedIn.imageURL;
+    //$scope.user.profileImageUrl = $rootScope.loggedIn.imageURL;
     $scope.user.address = $scope.currentUser.address;
     $scope.user.bestAt = $scope.currentUser.bestAt;
     $scope.user.techSkill = $scope.currentUser.techSkill;
@@ -22,8 +23,16 @@ angular.module('dvelop.signup', ['dvelop.auth'])
   });
 
   $scope.saveData = function(){
+    var objectToSave = {};
+    for (key in $scope.user) {
+      var value = $scope.user[key];
+      if (value !== undefined && value !== null) {
+        objectToSave[key] = value;
+      }
+    }
     var userRef = $rootScope.fb.child('users');
-    userRef.child($rootScope.loggedIn.userID).set($scope.user);
+    userRef.child($rootScope.loggedIn.userID).set(objectToSave);
+    //userRef.child($rootScope.loggedIn.userID).set($scope.user);
     $location.path('/search'); //object version
   };
 
