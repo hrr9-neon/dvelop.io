@@ -111,7 +111,8 @@ angular.module('dvelop.messages', ['luegg.directives'])
             text: result[key].text,
             sender: usrname.displayName,
             senderpic: usrname.profileImageUrl,
-            timestamp: result[key].timestamp
+            timestamp: result[key].timestamp,
+            online: usrname.online
           });
         });
       }
@@ -127,7 +128,7 @@ angular.module('dvelop.messages', ['luegg.directives'])
   };
 })
 
-.factory('Membership', function($rootScope, $firebase) {
+.factory('Membership', function($rootScope, $firebase, UserName) {
   var getMembers = function(roomID, callback) {
     console.log(roomID);
     var memObj = new Firebase("https://shining-torch-3159.firebaseio.com/membership/" + roomID.trim());
@@ -140,17 +141,23 @@ angular.module('dvelop.messages', ['luegg.directives'])
       for (var key in result) {
         console.log(key + ': ' + result[key]);
         if ($rootScope.loggedIn.userID !== key) {
-          memArr = {
-            userid: key,
-            name: result[key]
-          };
+
+          UserName.getUsername(key, function(usr) {
+
+            memArr = {
+              userid: key,
+              name: result[key],
+              online: usr.online
+            };
+            console.log(memArr);
+
+            callback(memArr);
+
+          });
         }
       }
 
       // var ret = memArr.join(', ');
-      console.log(memArr);
-
-      callback(memArr);
     });
   };
 
