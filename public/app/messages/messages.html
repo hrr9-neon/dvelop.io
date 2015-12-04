@@ -40,7 +40,7 @@
     <div class="channel-list">
       <div class="list-head">Rooms</div>
       <div class="channel" ng-repeat="item in publicrooms">
-        <div class="rooms" ng-class="{ 'selected': $index == selectedPublicRoomIndex }" ng-click="showMessages(item, $index, 'public')"># {{item.name}}</div>
+        <div class="rooms" ng-class="{ 'selected': item.id == selectedRoomID }" ng-click="showMessages(item, $index, 'public')"># {{item.name}}</div>
       </div>
       <div class="channel create">
         <div data-toggle="modal" data-target="#chatModal"> find room</div>
@@ -99,17 +99,19 @@
       </div>
       <div class="modal-body">
         <form>
-          <select class="form-control" ng-repeat="item in otherRooms">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
+          <span ng-repeat="item in otherRooms"><button type="submit" class="btn btn-info" ng-click="addPublicRoom(item)">{{ item.name }}</button>&nbsp;</span>
+
+     <!--      <select class="form-control" multiple >
+            <option ng-dblClick="addPublicRoom(item)" ng-repeat="item in otherRooms">{{ item.name }}</option>
+          </select> -->
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary">Send</button>
+        <form class="form-inline">
+          <div class="form-group">
+            <label>Or create a new room: <input class="form-control" id="createNewRoom" placeholder="Room name" type="text"></label> <button type="button" class="btn btn-primary" ng-click="createNewRoom()">Create</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>

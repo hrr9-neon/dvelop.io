@@ -206,7 +206,7 @@ angular.module('dvelop.messages', ['luegg.directives'])
   };
 })
 
-.controller('MessagesController', function ($scope, $rootScope, $firebaseArray, logout, MyRooms, MyChats, MyMessages, AllPublicRooms, $timeout){
+.controller('MessagesController', function ($scope, $rootScope, $firebaseArray, logout, MyRooms, MyChats, MyMessages, AllPublicRooms, $timeout, $route){
   $scope.messages;
   $scope.publicrooms;
   $scope.privaterooms = [];
@@ -215,7 +215,7 @@ angular.module('dvelop.messages', ['luegg.directives'])
   $scope.selectedRoomID;
   $scope.otherRooms;
   $scope.message = '';
-
+  // $index == selectedPublicRoomIndex
   MyRooms.getRooms(function(publiclist) {
     $scope.publicrooms = publiclist;
   });
@@ -268,6 +268,38 @@ angular.module('dvelop.messages', ['luegg.directives'])
         $scope.selectedPrivateRoomIndex = $index;
       }
     });
+  };
+
+  $scope.addPublicRoom = function(room) {
+    console.log(room.id);
+    var ref = $rootScope.fb.child('users/' + $rootScope.loggedIn.userID + '/rooms');
+    ref.child(room.id).set(room.name);
+    $scope.selectedRoomID = room.id;
+    $timeout(function() {
+      $scope.otherPublicRooms();
+    }, 100);
+    $('#chatModal').modal('hide');
+    $route.reload();
+  };
+
+  $scope.createNewRoom = function() {
+    var roomName = $('#createNewRoom').val();
+
+    var roomref = $rootScope.fb.child('rooms');
+    var rooms = $firebaseArray(roomref);
+
+    rooms.$add({ name: roomName, type : "public" }).then(function(ref) {
+      var roomid = ref.key();
+      roomref.child(roomid).child('id').set(roomid);
+      var ref = $rootScope.fb.child('users/' + $rootScope.loggedIn.userID + '/rooms');
+      ref.child(roomid).set(roomName);
+    });
+
+    $('#chatModal').modal('hide');
+
+    $timeout(function() {
+      $route.reload();
+    }, 100);
   };
 
   MyMessages.getMessages('----3c738eedf4084011808f288d2497c481', function(msg){

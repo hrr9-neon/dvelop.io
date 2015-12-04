@@ -106,7 +106,7 @@ angular.module('dvelop.auth', [])
       connected.$watch(function() {
         if(connected.$value === true) {
           usersRef.set(true);
-          lastOnlineRef.set('now');
+          lastOnlineRef.set('online now');
         }
       });
     },
