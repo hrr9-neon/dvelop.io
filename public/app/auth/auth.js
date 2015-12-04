@@ -10,7 +10,7 @@ angular.module('dvelop.auth', [])
   return $firebaseAuth(usersRef);
 })
 
-.controller('AuthController', function($scope, Auth, $location, $rootScope, $firebase){
+.controller('AuthController', function($scope, Auth, $location, $rootScope, $firebase, Users){
 
   $rootScope.fb = new Firebase("https://shining-torch-3159.firebaseio.com");
   $rootScope.loggedIn = null;
@@ -20,6 +20,7 @@ angular.module('dvelop.auth', [])
       //this needs work...
     .then(function(authData){
       if ($rootScope.loggedIn) {
+        Users.setOnline($rootScope.loggedIn.userID);
         $location.path('/search');
       } else{
         $rootScope.loggedIn = {
@@ -27,7 +28,8 @@ angular.module('dvelop.auth', [])
           displayName: authData.github.displayName,
           email: authData.github.email,
           imageURL: authData.github.profileImageURL
-        };
+        };       
+        Users.setOnline($rootScope.loggedIn.userID);
         $location.path('/search');
       }
     });
@@ -40,12 +42,69 @@ angular.module('dvelop.auth', [])
 
 })
 
-.factory('logout', function(Auth, $rootScope, $location){
-    var logoutFn = function(){
-      Auth.$unauth();
-      delete $rootScope.loggedIn;
-      $location.path('/auth');
+.factory('logout', function(Auth, $rootScope, $location, $firebaseObject){
+  //todo: this is hard coded, needs to be part of config or $rootScope
+  //var FirebaseUrl = "https://shining-torch-3159.firebaseio.com/";
+  //var usersRef = new Firebase(FirebaseUrl+'users');  
+  var logoutFn = function(){
+    var FirebaseUrl = "https://shining-torch-3159.firebaseio.com/";
+    var uid = $rootScope.loggedIn.userID
+    Auth.$unauth();
+    delete $rootScope.loggedIn;
+    var ref = new Firebase("https://shining-torch-3159.firebaseio.com/users/");
+    var usersRef = ref.child(uid+'/online');
+    var lastOnlineRef = ref.child(uid+'/lastonline');
+    var connectedRef = new Firebase(FirebaseUrl+'.info/connected');
+    var connected = $firebaseObject(connectedRef);
+    connected.$watch(function() {
+      if(connected.$value === true) {
+        usersRef.set(false);
+        lastOnlineRef.set(Firebase.ServerValue.TIMESTAMP);
+      } 
+    });
+    $location.path('/auth');
 
-    };
-    return { logout: logoutFn };
-});
+  };
+  return { logout: logoutFn };
+})
+
+.factory('Users', function($firebaseArray, $firebaseObject) {
+  //todo: this is hard coded, needs to be part of config or $rootScope
+  var FirebaseUrl = "https://shining-torch-3159.firebaseio.com/";
+  var usersRef = new Firebase(FirebaseUrl+'users');
+  var connectedRef = new Firebase(FirebaseUrl+'.info/connected');
+  var users = $firebaseArray(usersRef);
+
+  var Users = {
+    // getProfile: function(uid) {
+    //   return $firebaseObject(usersRef.child(uid));
+    // },
+
+    // getDisplayName: function(uid) {
+    //   return users.$getRecord(uid).displayName;
+    // },
+
+    // getGravatar: function(uid) {
+    //   return '//www.gravatar.com/avatar/' + users.$getRecord(uid).emailHash;
+    // },
+
+    setOnline: function(uid) {
+      var ref = new Firebase("https://shining-torch-3159.firebaseio.com/users/");
+      var usersRef = ref.child(uid+'/online');
+      var lastOnlineRef = ref.child(uid+'/lastonline');
+      var connected = $firebaseObject(connectedRef);
+      //var online = $firebaseArray(usersRef.child(uid+'/online'));
+
+      connected.$watch(function() {
+        if(connected.$value === true) {
+          usersRef.set(true);
+          lastOnlineRef.set('now');
+        }
+      });
+    },
+
+    all: users
+  };
+
+  return Users;
+})
