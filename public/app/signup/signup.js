@@ -8,8 +8,8 @@ angular.module('dvelop.signup', ['dvelop.auth'])
 
   userData.on('value', function(snapshot){
     $scope.currentUser = (snapshot.val());
-    $scope.user.displayName = $rootScope.loggedIn.displayName;
-    $scope.user.emailAddress = $rootScope.loggedIn.email;
+    $scope.user.displayName = $scope.currentUser.displayName;
+    $scope.user.emailAddress = $scope.currentUser.emailAddress;
     // $scope.user.birthday = $scope.currentUser.birthday;
     $scope.user.professionalLevel = $scope.currentUser.professionalLevel;
     $scope.user.profileImageUrl = $rootScope.loggedIn.imageURL;
