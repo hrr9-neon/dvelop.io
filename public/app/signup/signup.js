@@ -4,7 +4,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
 
   $scope.user = {};
   $scope.user.profileImageUrl = $rootScope.loggedIn.imageURL;
-  $scope.user.rooms = {'3c738eedf4084011808f288d2497c481': "General"};
+  // $scope.user.rooms = {'3c738eedf4084011808f288d2497c481': "General"};
 
   // var ref = new Firebase("https://shining-torch-3159.firebaseio.com/users/");
   // var uid = $rootScope.loggedIn.userID;
@@ -40,7 +40,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
 
   $scope.saveData = function(){
     var objectToSave = {};
-    for (key in $scope.user) {
+    for (var key in $scope.user) {
       var value = $scope.user[key];
       if (value !== undefined && value !== null) {
         objectToSave[key] = value;
@@ -48,6 +48,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
     }
     var userRef = $rootScope.fb.child('users');
     userRef.child($rootScope.loggedIn.userID).update(objectToSave);
+    userRef.child($rootScope.loggedIn.userID).child('rooms').child('3c738eedf4084011808f288d2497c481').set('general');
     var memberRef = $rootScope.fb.child('membership');
     //var membershipToSave = {$rootScope.loggedIn.userID: objectToSave.displayName};
     memberRef.child('3c738eedf4084011808f288d2497c481').child($rootScope.loggedIn.userID).set(objectToSave.displayName);
