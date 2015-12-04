@@ -23,7 +23,7 @@ angular.module('dvelop.signup', ['dvelop.auth'])
 
   $scope.saveData = function(){
     var userRef = $rootScope.fb.child('users');
-    userRef.child($rootScope.loggedIn.userID).update($scope.user);
+    userRef.child($rootScope.loggedIn.userID).set($scope.user);
     $location.path('/search'); //object version
   };
 
