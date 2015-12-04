@@ -126,21 +126,19 @@
             <label for="experience" class="col-sm-3 control-label">Do you want to be a mentor?</label>
             <div class="col-sm-9">
                 <select id="experience" ng-model="user.mentorAvail" class="form-control">
-                    <option value="True">Yes, I'd like to be a mentor.</option>
+                    <option value="Mentor">Yes, I'd like to be a mentor.</option>
                     <option value="False">No, count me out. </option>
-                    <option value="MoreInfo">Maybe, send me more information.</option>
                 </select>
             </div>
         </div>
 
         <!-- Willing to help? -->
         <div class="form-group">
-            <label for="experience" class="col-sm-3 control-label">Are you willing to help?</label>
+            <label for="experience" class="col-sm-3 control-label">Are you looking for collaborators?</label>
             <div class="col-sm-9">
                 <select id="experience" ng-model="user.helpAvail" class="form-control">
-                    <option value="True">Yes, I'm willing to help.</option>
-                    <option value="False">No, count me out. </option>
-                    <option value="MoreInfo">Maybe, send me more information.</option>
+                    <option value="Collaborate">Always looking for collaborators. </option>
+                    <option value="False">I'm more of a lone wolf. </option>
 
                 </select>
             </div>
